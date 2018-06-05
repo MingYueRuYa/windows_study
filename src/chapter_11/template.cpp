@@ -142,6 +142,25 @@ void FillListBox(HWND hwndList)
 	FreeEnvironmentStrings(pVarStartBlock);
 }
 
+INT_PTR CALLBACK MyAbout(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	UNREFERENCED_PARAMETER(lParam);
+	switch (message)
+	{
+	case WM_INITDIALOG:
+		return (INT_PTR)TRUE;
+
+	case WM_COMMAND:
+		if (LOWORD(wParam) == IDOK || LOWORD(wParam) == IDCANCEL)
+		{
+			EndDialog(hDlg, LOWORD(wParam));
+			return (INT_PTR)TRUE;
+		}
+		break;
+	}
+	return (INT_PTR)FALSE;
+}
+
 //
 //  º¯Êý:  WndProc(HWND, UINT, WPARAM, LPARAM)
 //
@@ -221,6 +240,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		switch (wmId)
 		{
 		case IDM_ABOUT:
+			DialogBox(hInst, MAKEINTRESOURCE(IDD_COLOR_DIALOG), hWnd, MyAbout);
+			break;
+		case IDM_NEW_DIALOG:
 			DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
 			break;
 		case IDM_EXIT:
