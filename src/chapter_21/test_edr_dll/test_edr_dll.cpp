@@ -156,7 +156,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		RECT rect;
 		GetClientRect(hWnd, &rect);
 
-		EdrCenterTextW(hdc, &rect, TEXT("This string was displayed by a demo DLL."));
+		EdrCenterText(hdc, &rect, 
+			TEXT("This string was displayed by a DLL."));
 
 		EndPaint(hWnd, &ps);
 	}
