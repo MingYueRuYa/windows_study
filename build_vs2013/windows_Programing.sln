@@ -25,7 +25,13 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "chapter_9", "..\src\chapter
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "chapter_11", "..\src\chapter_11\chapter_11.vcxproj", "{5300201F-4F75-4112-9103-DE8EFF5D5229}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "clipborad", "..\src\clipborad\clipborad.vcxproj", "{1A77EBC4-9611-4AE8-A09A-E19FF70F27CC}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "clipboard", "..\src\clipborad\clipborad.vcxproj", "{1A77EBC4-9611-4AE8-A09A-E19FF70F27CC}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "edrdll", "..\src\chapter_21\edrdll\edrdll.vcxproj", "{96118052-4983-44C8-B5F3-6F56FDF49B09}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "chapter_21", "chapter_21", "{12F122BB-F7B4-4740-A7E2-1F6A4DD78E49}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test_edr_dll", "..\src\chapter_21\test_edr_dll\test_edr_dll.vcxproj", "{0B8AEA8F-DE7A-448A-AD38-96371575B59A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -109,8 +115,24 @@ Global
 		{1A77EBC4-9611-4AE8-A09A-E19FF70F27CC}.Release|Win32.ActiveCfg = Release|Win32
 		{1A77EBC4-9611-4AE8-A09A-E19FF70F27CC}.Release|Win32.Build.0 = Release|Win32
 		{1A77EBC4-9611-4AE8-A09A-E19FF70F27CC}.Release|x64.ActiveCfg = Release|Win32
+		{96118052-4983-44C8-B5F3-6F56FDF49B09}.Debug|Win32.ActiveCfg = Debug|Win32
+		{96118052-4983-44C8-B5F3-6F56FDF49B09}.Debug|Win32.Build.0 = Debug|Win32
+		{96118052-4983-44C8-B5F3-6F56FDF49B09}.Debug|x64.ActiveCfg = Debug|Win32
+		{96118052-4983-44C8-B5F3-6F56FDF49B09}.Release|Win32.ActiveCfg = Release|Win32
+		{96118052-4983-44C8-B5F3-6F56FDF49B09}.Release|Win32.Build.0 = Release|Win32
+		{96118052-4983-44C8-B5F3-6F56FDF49B09}.Release|x64.ActiveCfg = Release|Win32
+		{0B8AEA8F-DE7A-448A-AD38-96371575B59A}.Debug|Win32.ActiveCfg = Debug|Win32
+		{0B8AEA8F-DE7A-448A-AD38-96371575B59A}.Debug|Win32.Build.0 = Debug|Win32
+		{0B8AEA8F-DE7A-448A-AD38-96371575B59A}.Debug|x64.ActiveCfg = Debug|Win32
+		{0B8AEA8F-DE7A-448A-AD38-96371575B59A}.Release|Win32.ActiveCfg = Release|Win32
+		{0B8AEA8F-DE7A-448A-AD38-96371575B59A}.Release|Win32.Build.0 = Release|Win32
+		{0B8AEA8F-DE7A-448A-AD38-96371575B59A}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{96118052-4983-44C8-B5F3-6F56FDF49B09} = {12F122BB-F7B4-4740-A7E2-1F6A4DD78E49}
+		{0B8AEA8F-DE7A-448A-AD38-96371575B59A} = {12F122BB-F7B4-4740-A7E2-1F6A4DD78E49}
 	EndGlobalSection
 EndGlobal
