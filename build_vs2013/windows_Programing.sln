@@ -39,6 +39,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test_load_method_dll", "..\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "nettime", "..\src\nettime\nettime.vcxproj", "{D3911EA0-0985-460A-B83A-BB070AE8813C}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "chapter_14", "..\src\chapter_14\chapter_14.vcxproj", "{57F50085-D86B-4B89-8F7D-B559259A0A09}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -221,6 +223,16 @@ Global
 		{D3911EA0-0985-460A-B83A-BB070AE8813C}.Release|Win32.ActiveCfg = Release|Win32
 		{D3911EA0-0985-460A-B83A-BB070AE8813C}.Release|Win32.Build.0 = Release|Win32
 		{D3911EA0-0985-460A-B83A-BB070AE8813C}.Release|x64.ActiveCfg = Release|Win32
+		{57F50085-D86B-4B89-8F7D-B559259A0A09}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{57F50085-D86B-4B89-8F7D-B559259A0A09}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{57F50085-D86B-4B89-8F7D-B559259A0A09}.Debug|Win32.ActiveCfg = Debug|Win32
+		{57F50085-D86B-4B89-8F7D-B559259A0A09}.Debug|Win32.Build.0 = Debug|Win32
+		{57F50085-D86B-4B89-8F7D-B559259A0A09}.Debug|x64.ActiveCfg = Debug|Win32
+		{57F50085-D86B-4B89-8F7D-B559259A0A09}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{57F50085-D86B-4B89-8F7D-B559259A0A09}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{57F50085-D86B-4B89-8F7D-B559259A0A09}.Release|Win32.ActiveCfg = Release|Win32
+		{57F50085-D86B-4B89-8F7D-B559259A0A09}.Release|Win32.Build.0 = Release|Win32
+		{57F50085-D86B-4B89-8F7D-B559259A0A09}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
