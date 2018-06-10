@@ -25,6 +25,7 @@ INT_PTR CALLBACK	About(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK	MainDlg(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK	ServerDlg(HWND, UINT, WPARAM, LPARAM);
 void EditPrintf(HWND hwndEdit, TCHAR *szFormat, ...);
+void ChangeSystemTime(HWND hwndEdit, ULONG ulTime);
 void FormatUpdateTime(HWND hwndEdit, SYSTEMTIME *pstOld, SYSTEMTIME *pstNew);
 
 HWND hwndModeless;
@@ -263,6 +264,7 @@ INT_PTR CALLBACK MainDlg(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 			EditPrintf(hwndEdit, TEXT("Received current time of %u seconds ")
 								 TEXT("since Jan. 1 1900.\r\n"), ulTime);
 			
+			ChangeSystemTime(hwndEdit, ulTime);
 			SendMessage(hDlg, WM_COMMAND, IDC_CANCEL, 0);
 
 			break;
@@ -323,14 +325,14 @@ INT_PTR CALLBACK MainDlg(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 			sock = 0;
 			WSACleanup();
 			KillTimer(hDlg, ID_TIMER);
-			EditPrintf(hDlg, TEXT("\r\nSocket close.\r\n"));
+			EditPrintf(hwndEdit, TEXT("\r\nSocket close.\r\n"));
 
 			SetWindowText(hwndButton, szOKLabel);	
 			SetWindowLong(hwndButton, GWL_ID, IDC_OK);	
 
 			break;
 		case IDC_CLOSE:
-			if (0 == sock) {
+			if (0 != sock) {
 				SendMessage(hDlg, WM_COMMAND, IDC_CANCEL, 0);
 			}
 			DestroyWindow(GetParent(hDlg));
@@ -399,7 +401,7 @@ void EditPrintf(HWND hwndEdit, TCHAR *szFormat, ...)
 	SendMessage(hwndEdit, EM_SCROLLCARET, 0, 0);
 }
 
-void ChangeSystemTim(HWND hwndEdit, ULONG ulTime)
+void ChangeSystemTime(HWND hwndEdit, ULONG ulTime)
 {
 	FILETIME ftNew;
 	SYSTEMTIME stOld, stNew;
@@ -418,12 +420,14 @@ void ChangeSystemTim(HWND hwndEdit, ULONG ulTime)
 	li			= *(LARGE_INTEGER *)&ftNew;
 	li.QuadPart += (LONGLONG)10000000 * ulTime;
 	ftNew		= *(FILETIME *)&li;
+	FileTimeToSystemTime(&ftNew, &stNew);
 
 	if (SetSystemTime(&stNew)) {
 		GetLocalTime(&stNew);
 		FormatUpdateTime(hwndEdit, &stOld, &stNew);
 	} else {
-		EditPrintf(hwndEdit, TEXT("Could NOT set new data and time."));
+		EditPrintf(hwndEdit, TEXT("Could NOT set new data and time,  \
+			error code %i."), GetLastError());
 	}
 }
 
@@ -444,8 +448,8 @@ void FormatUpdateTime(HWND hwndEdit, SYSTEMTIME *pstOld, SYSTEMTIME *pstNew)
 					NULL, szTimeNew, sizeof(szTimeNew));
 
 	EditPrintf(hwndEdit,
-				TEXT("System data and time successfully changed."),
-				TEXT("from\r\n\t%s, %s.%03i to\r\n\t %s, %s.%03.i.\r\n\r\n"),
+				TEXT("System data and time successfully changed \
+				from\r\n\t%s, %s.%03i to\r\n\t %s, %s.%03.i.\r\n\r\n"),
 				szDateOld, szTimeOld, pstOld->wMilliseconds,
 				szDateNew, szTimeNew, pstNew->wMilliseconds);
 
