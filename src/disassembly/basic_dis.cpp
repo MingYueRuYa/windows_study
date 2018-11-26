@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 #define NUMBER_COUNT 100
 
@@ -8,6 +9,22 @@ void add(int &nVar)
 }
 
 int main()
+{
+	int i=0;	
+	int array[] = {1,2,3,4,5};
+
+	for (int j=0;array[j] < 5; ++j) {
+		printf("array[%d]=%d", j, array[j]);	
+	}
+
+	system("pause");
+	return 0;
+}
+
+/*
+	测试const常量
+*/
+int const_main()
 {
 /****************************/
 //	int nVar = 0x12345678;
@@ -46,6 +63,7 @@ int main()
 	// 此处打印的j值就是tempj+1后的值
 	
 /****************************/
+	system("pause");
 
 	return 0;
 }

@@ -240,6 +240,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		break;
+	case WM_SYSCOMMAND:
+		if (SC_MINIMIZE == wParam) {
+			::ShowWindow(hWnd, SW_MINIMIZE);
+		} else if (SC_RESTORE == wParam) {
+			::ShowWindow(hWnd, SW_RESTORE);
+		}
+		break;
 	default:
 		return DefWindowProc(hWnd, message, wParam, lParam);
 	}
