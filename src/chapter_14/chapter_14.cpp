@@ -1,9 +1,8 @@
-// test_edr_dll.cpp : 定义应用程序的入口点。
+// chapter_14.cpp : 定义应用程序的入口点。
 //
 
 #include "stdafx.h"
-#include "test_edr_dll.h"
-#include "edr.h"
+#include "chapter_14.h"
 
 #define MAX_LOADSTRING 100
 
@@ -32,7 +31,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 
 	// 初始化全局字符串
 	LoadString(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
-	LoadString(hInstance, IDC_TEST_EDR_DLL, szWindowClass, MAX_LOADSTRING);
+	LoadString(hInstance, IDC_CHAPTER_14, szWindowClass, MAX_LOADSTRING);
 	MyRegisterClass(hInstance);
 
 	// 执行应用程序初始化: 
@@ -41,7 +40,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 		return FALSE;
 	}
 
-	hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_TEST_EDR_DLL));
+	hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_CHAPTER_14));
 
 	// 主消息循环: 
 	while (GetMessage(&msg, NULL, 0, 0))
@@ -74,10 +73,10 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 	wcex.cbClsExtra		= 0;
 	wcex.cbWndExtra		= 0;
 	wcex.hInstance		= hInstance;
-	wcex.hIcon			= LoadIcon(hInstance, MAKEINTRESOURCE(IDI_TEST_EDR_DLL));
+	wcex.hIcon			= LoadIcon(hInstance, MAKEINTRESOURCE(IDI_CHAPTER_14));
 	wcex.hCursor		= LoadCursor(NULL, IDC_ARROW);
 	wcex.hbrBackground	= (HBRUSH)(COLOR_WINDOW+1);
-	wcex.lpszMenuName	= MAKEINTRESOURCE(IDC_TEST_EDR_DLL);
+	wcex.lpszMenuName	= MAKEINTRESOURCE(IDC_CHAPTER_14);
 	wcex.lpszClassName	= szWindowClass;
 	wcex.hIconSm		= LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
 
@@ -126,12 +125,26 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 //
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+	static HBITMAP hBitmap;
+	static BITMAP bitmap;
+
 	int wmId, wmEvent;
 	PAINTSTRUCT ps;
 	HDC hdc;
 
+	HDC hdcMem;
+
+	static int cxCar, cyCar;
+
 	switch (message)
 	{
+	case WM_CREATE:
+		MoveWindow(hWnd, 100, 100, 800, 600, false);
+		hBitmap = LoadBitmap(hInst, MAKEINTRESOURCE(IDB_BITMAP2));
+		GetObject(hBitmap, sizeof(BITMAP), &bitmap);
+		cxCar = bitmap.bmWidth;
+		cyCar = bitmap.bmHeight;
+		break;
 	case WM_COMMAND:
 		wmId    = LOWORD(wParam);
 		wmEvent = HIWORD(wParam);
@@ -149,18 +162,25 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		}
 		break;
 	case WM_PAINT:
-	{
 		hdc = BeginPaint(hWnd, &ps);
-		// TODO:  在此添加任意绘图代码...
-		
-		RECT rect;
-		GetClientRect(hWnd, &rect);
+		hdcMem = CreateCompatibleDC(hdc);
+		SelectObject(hdcMem, hBitmap);
+		BitBlt(hdc, 200, 0, cxCar, cyCar, hdcMem, 0, 0, SRCCOPY);
+		/*
+		BitBlt(hdc, 0, 0, cxCar, cyCar, hdcMem, 0, 0, SRCCOPY);
 
-		EdrCenterText(hdc, &rect, 
-			TEXT("This string was displayed by a DLL."));
+		BitBlt(hdc, 400, 0, cxCar, cyCar, hdcMem, 0, 0, NOTSRCCOPY);
 
+		SelectObject(hdc, CreateHatchBrush(HS_DIAGCROSS, RGB(0, 255, 0)));
+		BitBlt(hdc, 0, 300, cxCar, cyCar, hdcMem, 0, 0, MERGECOPY);
+		DeleteObject(SelectObject(hdc, GetStockObject(WHITE_BRUSH)));
+
+		SelectObject(hdc, CreateSolidBrush(RGB(255, 0, 0)));
+		Rectangle(hdc, 400, 300, 800, 600);
+		BitBlt(hdc, 400, 300, cxCar, cyCar, hdcMem, 0, 0, SRCINVERT);
+		DeleteObject(SelectObject(hdc, GetStockObject(WHITE_BRUSH)));
+		*/
 		EndPaint(hWnd, &ps);
-	}
 		break;
 	case WM_DESTROY:
 		PostQuitMessage(0);
