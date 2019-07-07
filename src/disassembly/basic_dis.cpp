@@ -8,7 +8,14 @@ void add(int &nVar)
 	nVar += 1;
 }
 
-int main()
+int main(int argc, char *argv[])
+{
+	printf("%d %s\n", argc, argv);
+
+	return 0;
+}
+
+int main02()
 {
 	int i=0;	
 	int array[] = {1,2,3,4,5};
