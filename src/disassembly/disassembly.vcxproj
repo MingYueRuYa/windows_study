@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="basic_dis.cpp" />
+    <ClCompile Include="ch_6_function_call.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{77C9966A-3E33-42D9-8676-A1599ECA9BCD}</ProjectGuid>
