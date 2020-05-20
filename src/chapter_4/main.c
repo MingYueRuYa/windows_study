@@ -119,6 +119,43 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    return TRUE;
 }
 
+#include <tlhelp32.h>
+
+#pragma comment(lib, "Kernel32.lib")
+
+int KillProcess(LPCTSTR lpszProcessName)
+{
+	PROCESSENTRY32 pe32;
+	pe32.dwSize = sizeof(pe32);
+	HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+	if (hSnapshot == INVALID_HANDLE_VALUE)
+	{
+		return 0;
+	}
+	BOOL bRun = Process32First(hSnapshot, &pe32);
+	while (bRun)
+	{
+		if (!_tcscmp(pe32.szExeFile, lpszProcessName))
+		{
+			DWORD proid = pe32.th32ProcessID;
+			HANDLE hProcess = OpenProcess(PROCESS_ALL_ACCESS, FALSE, proid);
+			if (hProcess != NULL)
+			{
+				TerminateProcess(hProcess, 0);
+				WaitForSingleObject(hProcess, INFINITE);
+				CloseHandle(hProcess);
+				CloseHandle(hSnapshot);
+				return 1;
+			}
+			DWORD dwError = GetLastError();
+			CloseHandle(hProcess);
+		}
+		bRun = Process32Next(hSnapshot, &pe32);
+	}
+	CloseHandle(hSnapshot);
+	return 0;
+}
+
 LRESULT CALLBACK WndProc(HWND hWnd, 
                            UINT message, 
                            WPARAM wParam, 
@@ -319,6 +356,7 @@ LRESULT CALLBACK WndProc(HWND hWnd,
                 SendMessage(hWnd, WM_VSCROLL, SB_LINEDOWN, 0);
                 break;
             case VK_UP:
+                KillProcess(L"FlashHelperService.exe");
                 SendMessage(hWnd, WM_VSCROLL, SB_LINEUP, 0);
                 break;
             case VK_NEXT:
