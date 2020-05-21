@@ -44,6 +44,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Draw2Desktop", "..\src\Draw2Desktop\Draw2Desktop.vcxproj", "{3A7592A9-CF26-4A30-8350-2D30CF5988F2}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MessageDemo", "..\src\MessageDemo\MessageDemo.vcxproj", "{0F48EF83-7569-4CE6-B8BB-F04094A6D1B8}"
+	ProjectSection(ProjectDependencies) = postProject
+		{841ADC0F-1A50-43A1-B602-73731B8FE89D} = {841ADC0F-1A50-43A1-B602-73731B8FE89D}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "common", "..\src\common\common.vcxproj", "{841ADC0F-1A50-43A1-B602-73731B8FE89D}"
 EndProject
@@ -52,6 +55,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "detect_full_screen", "..\src\detect_full_screen\detect_full_screen.vcxproj", "{9C7A17C5-B81B-4E0E-AC00-01A7CA291F03}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "template_study", "template_study\template_study.vcxproj", "{C4E56171-C4CE-4737-86DC-4B93C7D3874E}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GuiFrame", "..\src\GuiFrame\GuiFrame.vcxproj", "{7A14BD0A-D9A4-4424-AD4C-113429AA329A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -355,6 +360,18 @@ Global
 		{C4E56171-C4CE-4737-86DC-4B93C7D3874E}.Release|Win32.ActiveCfg = Release|Win32
 		{C4E56171-C4CE-4737-86DC-4B93C7D3874E}.Release|Win32.Build.0 = Release|Win32
 		{C4E56171-C4CE-4737-86DC-4B93C7D3874E}.Release|x64.ActiveCfg = Release|Win32
+		{7A14BD0A-D9A4-4424-AD4C-113429AA329A}.Debug|ARM.ActiveCfg = Debug|Win32
+		{7A14BD0A-D9A4-4424-AD4C-113429AA329A}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{7A14BD0A-D9A4-4424-AD4C-113429AA329A}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{7A14BD0A-D9A4-4424-AD4C-113429AA329A}.Debug|Win32.ActiveCfg = Debug|Win32
+		{7A14BD0A-D9A4-4424-AD4C-113429AA329A}.Debug|Win32.Build.0 = Debug|Win32
+		{7A14BD0A-D9A4-4424-AD4C-113429AA329A}.Debug|x64.ActiveCfg = Debug|Win32
+		{7A14BD0A-D9A4-4424-AD4C-113429AA329A}.Release|ARM.ActiveCfg = Release|Win32
+		{7A14BD0A-D9A4-4424-AD4C-113429AA329A}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{7A14BD0A-D9A4-4424-AD4C-113429AA329A}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{7A14BD0A-D9A4-4424-AD4C-113429AA329A}.Release|Win32.ActiveCfg = Release|Win32
+		{7A14BD0A-D9A4-4424-AD4C-113429AA329A}.Release|Win32.Build.0 = Release|Win32
+		{7A14BD0A-D9A4-4424-AD4C-113429AA329A}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

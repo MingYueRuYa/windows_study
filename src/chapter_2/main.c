@@ -5,6 +5,22 @@
 #include <wchar.h>
 #include <stdarg.h>
 
+int main()
+{
+    char name[] = "IT计算机"; 
+    wchar_t w_name[] = L"IT计算机";
+
+    // sizeof 返回字节数
+    // cslen 返回的字符数
+    int w_name_size     = sizeof(w_name);   // 5*2+2(两个00 00 结束符)
+    int w_name_length   = wcslen(w_name);   // 5
+    int name_size       = sizeof(name);     // 9
+    int name_length     = strlen(name);     // 8
+
+
+    return 0;
+}
+
 // ASCII码字符集，双字节字符集，多字节字符集
 int main01()
 {
