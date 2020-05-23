@@ -66,6 +66,7 @@
   <ItemGroup>
     <ClCompile Include="global.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="qbutton.cpp" />
     <ClCompile Include="qmainframe.cpp" />
     <ClCompile Include="qwindow.cpp" />
     <ClCompile Include="qwinapp.cpp" />
@@ -74,10 +75,18 @@
   <ItemGroup>
     <ClInclude Include="global.h" />
     <ClInclude Include="globalhead.h" />
+    <ClInclude Include="qbutton.h" />
     <ClInclude Include="qmainframe.h" />
     <ClInclude Include="qwindow.h" />
     <ClInclude Include="qwinapp.h" />
     <ClInclude Include="qwindemoapp.h" />
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="GuiFrame.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="bitmap1.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

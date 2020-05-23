@@ -96,10 +96,11 @@ BOOL QWindow::CreateEx(DWORD dwExStyle,
         return false;
     }
 
+    // 将自身指针通过最有参数lParameter传递进去
     HWND hWnd = CreateWindowEx(cs.dwExStyle, cs.lpszClass, cs.lpszName, 
                                 cs.style, cs.x, cs.y, cs.cx, cs.cy, 
                                 cs.hwndParent, cs.hMenu, cs.hInstance, 
-                                cs.lpCreateParams);
+                                this);
 
     if (NULL == hWnd) { return false; }
 
@@ -109,6 +110,7 @@ BOOL QWindow::CreateEx(DWORD dwExStyle,
 
     m_lpfnOldWndProc = (WNDPROC)GetWindowLong(m_hWnd, GWL_WNDPROC);
 
+    // 子类化消息
     if (m_lpfnOldWndProc != QWindow::WndProc) {
         SetWindowLong(m_hWnd, GWL_WNDPROC, (LONG)QWindow::WndProc);
 
@@ -138,6 +140,13 @@ BOOL QWindow::DestroyWindow()
     assert(m_hWnd);
 
     return ::DestroyWindow(m_hWnd);
+}
+
+BOOL QWindow::GetClientRect(LPRECT lpRect)
+{
+    assert(lpRect);
+
+    return ::GetClientRect(m_hWnd, lpRect);
 }
 
 LRESULT QWindow::Default(UINT uMsg, WPARAM wParam, LPARAM lParam)

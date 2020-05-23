@@ -26,6 +26,7 @@ public:
     BOOL ShowWindow(int nCmdShow);
     BOOL UpdateWindow();
     BOOL DestroyWindow();
+    BOOL GetClientRect(LPRECT lpRect);
 
 public:
     static LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
