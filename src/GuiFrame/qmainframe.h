@@ -21,6 +21,8 @@ public:
     void TestBltPaint(HDC hdc);
     // Ë«»º³å»æÍ¼
     void DoubleBufferPaint(HDC hdc);
+    // ×ø±ê×ª»»
+    void CoordinateCovert(HDC hdc);
 
 public:
     QButton m_wndButton;

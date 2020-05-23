@@ -1,6 +1,10 @@
 #include "qmainframe.h"
 #include "resource.h"
 
+#include <string>
+
+using std::wstring;
+
 #define IDC_BUTTON 10001
 
 QMainFrame::QMainFrame()
@@ -24,9 +28,12 @@ LRESULT QMainFrame::OnDestroy(WPARAM wParam, LPARAM lParam)
 
 LRESULT QMainFrame::OnCreate(WPARAM wParam, LPARAM lParam)
 {
+    // 创建button
+    /*
     if (NULL == m_wndButton.m_hWnd) { 
         m_wndButton.CreateEx(_T("QButton Demo"), WS_CHILD | WS_VISIBLE | BS_DEFPUSHBUTTON, 0, 0, 200, 120, m_hWnd, (HMENU)IDC_BUTTON);
     }
+    */
 
     return TRUE;
 }
@@ -37,7 +44,9 @@ LRESULT QMainFrame::OnPaint(WPARAM wParam, LPARAM lParam)
     HDC hdc = ::BeginPaint(m_hWnd, &ps);
 
     // TestBltPaint(hdc);
-    DoubleBufferPaint(hdc);
+    // DoubleBufferPaint(hdc);
+
+    CoordinateCovert(hdc);
 
     ::EndPaint(m_hWnd, &ps);
     return 0;
@@ -172,4 +181,131 @@ void QMainFrame::DoubleBufferPaint(HDC hdc)
     ::SelectObject(hdc, hOldFont);
     ::DeleteObject((HFONT)hFont);
     */
+}
+
+void QMainFrame::CoordinateCovert(HDC hdc)
+{
+    POINT pt;
+    pt.x = 100;
+    pt.y = 300;
+    int nWidth = 0;
+
+    // 返回屏幕的像素单位 1920
+    int hHortWidth_PX = GetDeviceCaps(hdc, HORZRES);
+    // 返回屏幕MM毫米单位
+    int nHortWidth_MM = GetDeviceCaps(hdc, HORZSIZE);
+
+    // 返回屏幕的像素单位 1920
+    int hVortWidth_PX = GetDeviceCaps(hdc, VERTRES);
+    // 返回屏幕MM毫米单位
+    int nVortWidth_MM = GetDeviceCaps(hdc, VERTSIZE);
+
+    wstring text = wstring(L"屏幕X轴像素单位") + std::to_wstring(hHortWidth_PX);
+    TextOut(hdc, pt.x, pt.y, text.c_str(), text.length());
+
+    pt.y += 20;
+    text = wstring(L"屏幕X轴毫米单位") + std::to_wstring(nHortWidth_MM);
+    TextOut(hdc, pt.x, pt.y, text.c_str(), text.length());
+    pt.y += 20;
+    text = wstring(L"屏幕Y轴毫米单位") + std::to_wstring(hVortWidth_PX);
+    TextOut(hdc, pt.x, pt.y, text.c_str(), text.length());
+
+    pt.y += 20;
+    text = wstring(L"屏幕Y轴毫米单位") + std::to_wstring(nVortWidth_MM);
+    TextOut(hdc, pt.x, pt.y, text.c_str(), text.length());
+
+    nWidth = 1000;
+    pt.y += 20;
+    MoveToEx(hdc, pt.x, pt.y, NULL);
+    LineTo(hdc, pt.x+nWidth, pt.y);
+    text = wstring(L"默认模式：MM_TEXT");
+    TextOut(hdc, pt.x+nWidth, pt.y, text.c_str(), text.length());
+
+    int y_pos = pt.y;
+    {
+        /*
+			MM_LOMETRIC   1个单位 0.1mm
+			?(1000)	  100mm
+        */
+        y_pos += 20;
+        pt.y = y_pos;
+        int nOldMap = SetMapMode(hdc, MM_LOMETRIC);
+        DPtoLP(hdc, &pt, 1);
+        MoveToEx(hdc, pt.x, pt.y, NULL);
+        LineTo(hdc, pt.x+nWidth, pt.y);
+        text = wstring(L"MM_LOMETRIC");
+        TextOut(hdc, pt.x+nWidth, pt.y, text.c_str(), text.length());
+        SetMapMode(hdc, nOldMap);
+    }
+
+    {
+        y_pos += 20;
+        /*
+        MM_LOMETRIC   1个单位 0.01mm
+        ?(10000)	  100mm
+        */
+        pt.x = 100;
+        pt.y = y_pos;
+        int nOldMap = SetMapMode(hdc, MM_HIMETRIC);
+        DPtoLP(hdc, &pt, 1);
+        MoveToEx(hdc, pt.x, pt.y, NULL);
+        LineTo(hdc, pt.x+nWidth, pt.y);
+        TextOut(hdc, pt.x+nWidth, pt.y, _T("MM_HIMETRIC"), _tcslen(_T("MM_HIMETRIC")));
+        SetMapMode(hdc, nOldMap);
+    }
+
+    {
+        /*
+        MM_LOMETRIC   1个单位 0.001in (0.01*25.4)
+        ?(10000)	  100mm
+        */
+        y_pos += 20;
+        pt.x = 100;
+        pt.y = y_pos;
+        int nOldMap = SetMapMode(hdc, MM_HIENGLISH);
+        DPtoLP(hdc, &pt, 1);
+        MoveToEx(hdc, pt.x, pt.y, NULL);
+        LineTo(hdc, pt.x+nWidth, pt.y);
+        TextOut(hdc, pt.x+nWidth, pt.y, _T("MM_HIENGLISH"), _tcslen(_T("MM_HIENGLISH")));
+        SetMapMode(hdc, nOldMap);
+    }
+
+    {
+        /*
+        MM_LOMETRIC   1个单位 1/1440in (1/1440*25.4)
+        ?(10000)	  100mm
+        */
+        y_pos += 20;
+        pt.x = 100;
+        pt.y = y_pos;
+        int nOldMap = SetMapMode(hdc, MM_TWIPS);
+        nWidth = 1440*100/25.4;
+        DPtoLP(hdc, &pt, 1);
+        MoveToEx(hdc, pt.x, pt.y, NULL);
+        LineTo(hdc, pt.x+nWidth, pt.y);
+        TextOut(hdc, pt.x+nWidth, pt.y, _T("MM_TWIPS"), _tcslen(_T("MM_TWIPS")));
+        SetMapMode(hdc, nOldMap);
+    }
+
+    {
+        /*					1280  320mm
+                            400	  100
+        MM_ANISOTROPIC   1个单位 0.25MM
+    
+                    ?(400)	  100mm
+        */
+        y_pos += 20;
+        pt.x = 100;
+        pt.y = y_pos;
+        int nOldMap = SetMapMode(hdc, MM_ANISOTROPIC);
+        // SetViewportExtEx(hdc, 4, 4, NULL);//1280*800  1.25  = 1/8
+        // SetWindowExtEx(hdc, 1, 1, NULL);//320*200
+        nWidth = 100;
+        DPtoLP(hdc, &pt, 1);
+        MoveToEx(hdc, pt.x, pt.y, NULL);
+        LineTo(hdc, pt.x+nWidth, pt.y);
+        TextOut(hdc, pt.x+nWidth, pt.y, _T("MM_ANISOTROPIC"), _tcslen(_T("MM_ANISOTROPIC")));
+        SetMapMode(hdc, nOldMap);
+    }
+
 }
