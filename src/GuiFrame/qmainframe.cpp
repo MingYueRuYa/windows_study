@@ -5,7 +5,8 @@
 
 using std::wstring;
 
-#define IDC_BUTTON 10001
+#define IDC_BUTTON      10001
+#define IDC_GRAPHCTRL   10002
 
 QMainFrame::QMainFrame()
 {
@@ -35,6 +36,105 @@ LRESULT QMainFrame::OnCreate(WPARAM wParam, LPARAM lParam)
     }
     */
 
+    if (NULL == mGraphCtrl.m_hWnd) {
+        CRect rcClient;
+        GetClientRect(&rcClient);
+
+        mGraphCtrl.Create(_T(""), WS_CHILD|WS_VISIBLE, rcClient, this, IDC_GRAPHCTRL);
+
+        {
+            CGraph graph;
+            graph.SetGraphTitle(_T("正旋曲线"));
+            graph.SetGraphColor(0x0000FF);
+            for (int i = -10000; i < 10000; ++i) {
+                float fX = i;
+                float fY = 1000*sin(2*3.141592654*i/1000.0f);
+                graph.AddGraphData(fX, fY);
+            }
+
+            mGraphCtrl.AddGraph(graph);
+        }
+
+        {
+            CGraph gragh;
+			gragh.SetGraphTitle(_T("混合曲线"));
+			gragh.SetGraphColor(0x00FF00);
+			for(int i=-10000; i<10000; i++)
+			{
+				float fX = i;
+				float fY = 1000*sin(2*3.1415926*i/1000.0f)+500*cos(3.1415926*i/80.0f);
+				gragh.AddGraphData(fX, fY);
+			}
+			mGraphCtrl.AddGraph(gragh);
+        }
+
+        {
+            CGraph gragh;
+			gragh.SetGraphTitle(_T("圆曲线"));
+			gragh.SetGraphColor(0xFF0000);
+			for(int i=-10000; i<10000; i++)
+			{
+				float fX = 1000*cos(2*3.1415926*i/1000.0f);
+				float fY = 1000*sin(2*3.1415926*i/1000.0f);
+				gragh.AddGraphData(fX, fY);
+			}
+			mGraphCtrl.AddGraph(gragh);
+        }
+
+		{
+			CGraph gragh;
+			gragh.SetGraphTitle(_T("混合曲线"));
+			gragh.SetGraphColor(0x00FFFF);
+			for(int i=-10000; i<10000; i++)
+			{
+				float fX = i;
+				float fY = 1000*sin(2*3.1415926*i/1000.0f)*cos(3.1415926*i/99.0f)+1000;
+				gragh.AddGraphData(fX, fY);
+			}
+			mGraphCtrl.AddGraph(gragh);
+		}
+
+        {
+			CGraph gragh;
+			gragh.SetGraphTitle(_T("混合曲线"));
+			gragh.SetGraphColor(0xFFFF00);
+			for(int i=-10000; i<10000; i++)
+			{
+				float fX = i;
+				float fY = 100000*1.0f/i;
+				gragh.AddGraphData(fX, fY);
+			}
+			mGraphCtrl.AddGraph(gragh);
+		}
+
+        {
+			CGraph gragh;
+			gragh.SetGraphTitle(_T("混合曲线"));
+			gragh.SetGraphColor(0xFF00FF);
+			for(int i=-10000; i<10000; i++)
+			{
+				float fX = i;
+				float fY = 0.0001*i*i;
+				gragh.AddGraphData(fX, fY);
+			}
+			mGraphCtrl.AddGraph(gragh);
+        }
+
+        {
+			CGraph gragh;
+			gragh.SetGraphTitle(_T("混合曲线"));
+			gragh.SetGraphColor(0x000000);
+			for(int i=-10000; i<10000; i++)
+			{
+				float fX = i;
+				float fY = -0.0001*i*i;
+				gragh.AddGraphData(fX, fY);
+			}
+			mGraphCtrl.AddGraph(gragh);
+        }
+		
+    }
+
     return TRUE;
 }
 
@@ -45,8 +145,7 @@ LRESULT QMainFrame::OnPaint(WPARAM wParam, LPARAM lParam)
 
     // TestBltPaint(hdc);
     // DoubleBufferPaint(hdc);
-
-    CoordinateCovert(hdc);
+    // CoordinateCovert(hdc);
 
     ::EndPaint(m_hWnd, &ps);
     return 0;
@@ -308,4 +407,29 @@ void QMainFrame::CoordinateCovert(HDC hdc)
         SetMapMode(hdc, nOldMap);
     }
 
+    RECT rcClient;
+    GetClientRect(&rcClient);
+
+    // 设置设备坐标中心为逻辑坐标的(0, 0)
+    // ::SetViewportOrgEx(hdc, (rcClient.right-rcClient.left)/2,(rcClient.bottom-rcClient.top)/2, NULL);
+    // TextOut(hdc, 0, 0, _T("MM_ANISOTROPIC"), _tcslen(_T("MM_ANISOTROPIC")));
+
+
+    /*
+    int oldMapMode = SetMapMode(hdc, MM_ANISOTROPIC);
+    SetWindowExtEx(hdc, 300, 300, NULL);
+    // SetViewportExtEx(hdc, rcClient.right, -rcClient.bottom, NULL);
+    SetViewportExtEx(hdc, 600, 300, NULL);
+    // 设置设备坐标中心为逻辑坐标的(0, 0)
+    ::SetViewportOrgEx(hdc, (rcClient.right-rcClient.left)/2,(rcClient.bottom-rcClient.top)/2, NULL);
+
+    ::Ellipse(hdc, -100, -100, 100, 100);
+    */
+
+    int nRate = 10;
+    SetMapMode(hdc, MM_ANISOTROPIC);
+	SetWindowExtEx(hdc, rcClient.right*nRate, -rcClient.bottom*nRate, NULL);
+	SetViewportExtEx(hdc, rcClient.right, rcClient.bottom, NULL);  
+	SetViewportOrgEx(hdc, rcClient.right/2, rcClient.bottom/2, NULL);
+    ::Ellipse(hdc, -100, -100, 100, 100);
 }

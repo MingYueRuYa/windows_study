@@ -65,6 +65,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="global.cpp" />
+    <ClCompile Include="graphctrl.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="qbutton.cpp" />
     <ClCompile Include="qmainframe.cpp" />
@@ -75,6 +76,7 @@
   <ItemGroup>
     <ClInclude Include="global.h" />
     <ClInclude Include="globalhead.h" />
+    <ClInclude Include="graphctrl.h" />
     <ClInclude Include="qbutton.h" />
     <ClInclude Include="qmainframe.h" />
     <ClInclude Include="qwindow.h" />

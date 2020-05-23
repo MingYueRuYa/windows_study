@@ -3,6 +3,7 @@
 
 #include "qwindow.h"
 #include "qbutton.h"
+#include "graphctrl.h"
 
 class QMainFrame : public QWindow
 {
@@ -26,6 +27,7 @@ public:
 
 public:
     QButton m_wndButton;
+    CGraphCtrl mGraphCtrl;
 
 };
 
