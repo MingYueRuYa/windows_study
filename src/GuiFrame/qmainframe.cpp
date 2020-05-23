@@ -36,104 +36,7 @@ LRESULT QMainFrame::OnCreate(WPARAM wParam, LPARAM lParam)
     }
     */
 
-    if (NULL == mGraphCtrl.m_hWnd) {
-        CRect rcClient;
-        GetClientRect(&rcClient);
-
-        mGraphCtrl.Create(_T(""), WS_CHILD|WS_VISIBLE, rcClient, this, IDC_GRAPHCTRL);
-
-        {
-            CGraph graph;
-            graph.SetGraphTitle(_T("正旋曲线"));
-            graph.SetGraphColor(0x0000FF);
-            for (int i = -10000; i < 10000; ++i) {
-                float fX = i;
-                float fY = 1000*sin(2*3.141592654*i/1000.0f);
-                graph.AddGraphData(fX, fY);
-            }
-
-            mGraphCtrl.AddGraph(graph);
-        }
-
-        {
-            CGraph gragh;
-			gragh.SetGraphTitle(_T("混合曲线"));
-			gragh.SetGraphColor(0x00FF00);
-			for(int i=-10000; i<10000; i++)
-			{
-				float fX = i;
-				float fY = 1000*sin(2*3.1415926*i/1000.0f)+500*cos(3.1415926*i/80.0f);
-				gragh.AddGraphData(fX, fY);
-			}
-			mGraphCtrl.AddGraph(gragh);
-        }
-
-        {
-            CGraph gragh;
-			gragh.SetGraphTitle(_T("圆曲线"));
-			gragh.SetGraphColor(0xFF0000);
-			for(int i=-10000; i<10000; i++)
-			{
-				float fX = 1000*cos(2*3.1415926*i/1000.0f);
-				float fY = 1000*sin(2*3.1415926*i/1000.0f);
-				gragh.AddGraphData(fX, fY);
-			}
-			mGraphCtrl.AddGraph(gragh);
-        }
-
-		{
-			CGraph gragh;
-			gragh.SetGraphTitle(_T("混合曲线"));
-			gragh.SetGraphColor(0x00FFFF);
-			for(int i=-10000; i<10000; i++)
-			{
-				float fX = i;
-				float fY = 1000*sin(2*3.1415926*i/1000.0f)*cos(3.1415926*i/99.0f)+1000;
-				gragh.AddGraphData(fX, fY);
-			}
-			mGraphCtrl.AddGraph(gragh);
-		}
-
-        {
-			CGraph gragh;
-			gragh.SetGraphTitle(_T("混合曲线"));
-			gragh.SetGraphColor(0xFFFF00);
-			for(int i=-10000; i<10000; i++)
-			{
-				float fX = i;
-				float fY = 100000*1.0f/i;
-				gragh.AddGraphData(fX, fY);
-			}
-			mGraphCtrl.AddGraph(gragh);
-		}
-
-        {
-			CGraph gragh;
-			gragh.SetGraphTitle(_T("混合曲线"));
-			gragh.SetGraphColor(0xFF00FF);
-			for(int i=-10000; i<10000; i++)
-			{
-				float fX = i;
-				float fY = 0.0001*i*i;
-				gragh.AddGraphData(fX, fY);
-			}
-			mGraphCtrl.AddGraph(gragh);
-        }
-
-        {
-			CGraph gragh;
-			gragh.SetGraphTitle(_T("混合曲线"));
-			gragh.SetGraphColor(0x000000);
-			for(int i=-10000; i<10000; i++)
-			{
-				float fX = i;
-				float fY = -0.0001*i*i;
-				gragh.AddGraphData(fX, fY);
-			}
-			mGraphCtrl.AddGraph(gragh);
-        }
-		
-    }
+    DrawCurve();
 
     return TRUE;
 }
@@ -149,6 +52,17 @@ LRESULT QMainFrame::OnPaint(WPARAM wParam, LPARAM lParam)
 
     ::EndPaint(m_hWnd, &ps);
     return 0;
+}
+
+LRESULT QMainFrame::OnSize(WPARAM wParam, LPARAM lParam)
+{
+    if(mGraphCtrl.m_hWnd)
+	{
+		CRect rcClient;
+		GetClientRect(rcClient);
+		::MoveWindow(mGraphCtrl.m_hWnd, 0, 0, rcClient.Width(), rcClient.Height(), TRUE);
+	}
+	return QWindow::Default(WM_SIZE, wParam, lParam);
 }
 
 void QMainFrame::TestBltPaint(HDC hdc)
@@ -432,4 +346,105 @@ void QMainFrame::CoordinateCovert(HDC hdc)
 	SetViewportExtEx(hdc, rcClient.right, rcClient.bottom, NULL);  
 	SetViewportOrgEx(hdc, rcClient.right/2, rcClient.bottom/2, NULL);
     ::Ellipse(hdc, -100, -100, 100, 100);
+}
+
+void QMainFrame::DrawCurve()
+{
+    if (NULL == mGraphCtrl.m_hWnd) {
+        CRect rcClient;
+        GetClientRect(&rcClient);
+
+        mGraphCtrl.Create(_T(""), WS_CHILD|WS_VISIBLE, rcClient, this, IDC_GRAPHCTRL);
+
+        {
+            CGraph graph;
+            graph.SetGraphTitle(_T("正旋曲线"));
+            graph.SetGraphColor(0x0000FF);
+            for (int i = -10000; i < 10000; ++i) {
+                float fX = i;
+                float fY = 1000*sin(2*3.141592654*i/1000.0f);
+                graph.AddGraphData(fX, fY);
+            }
+
+            mGraphCtrl.AddGraph(graph);
+        }
+
+        {
+            CGraph gragh;
+			gragh.SetGraphTitle(_T("混合曲线"));
+			gragh.SetGraphColor(0x00FF00);
+			for(int i=-10000; i<10000; i++)
+			{
+				float fX = i;
+				float fY = 1000*sin(2*3.1415926*i/1000.0f)+500*cos(3.1415926*i/80.0f);
+				gragh.AddGraphData(fX, fY);
+			}
+			mGraphCtrl.AddGraph(gragh);
+        }
+
+        {
+            CGraph gragh;
+			gragh.SetGraphTitle(_T("圆曲线"));
+			gragh.SetGraphColor(0xFF0000);
+			for(int i=-10000; i<10000; i++)
+			{
+				float fX = 1000*cos(2*3.1415926*i/1000.0f);
+				float fY = 1000*sin(2*3.1415926*i/1000.0f);
+				gragh.AddGraphData(fX, fY);
+			}
+			mGraphCtrl.AddGraph(gragh);
+        }
+
+		{
+			CGraph gragh;
+			gragh.SetGraphTitle(_T("混合曲线"));
+			gragh.SetGraphColor(0x00FFFF);
+			for(int i=-10000; i<10000; i++)
+			{
+				float fX = i;
+				float fY = 1000*sin(2*3.1415926*i/1000.0f)*cos(3.1415926*i/99.0f)+1000;
+				gragh.AddGraphData(fX, fY);
+			}
+			mGraphCtrl.AddGraph(gragh);
+		}
+
+        {
+			CGraph gragh;
+			gragh.SetGraphTitle(_T("混合曲线"));
+			gragh.SetGraphColor(0xFFFF00);
+			for(int i=-10000; i<10000; i++)
+			{
+				float fX = i;
+				float fY = 100000*1.0f/i;
+				gragh.AddGraphData(fX, fY);
+			}
+			mGraphCtrl.AddGraph(gragh);
+		}
+
+        {
+			CGraph gragh;
+			gragh.SetGraphTitle(_T("混合曲线"));
+			gragh.SetGraphColor(0xFF00FF);
+			for(int i=-10000; i<10000; i++)
+			{
+				float fX = i;
+				float fY = 0.0001*i*i;
+				gragh.AddGraphData(fX, fY);
+			}
+			mGraphCtrl.AddGraph(gragh);
+        }
+
+        {
+			CGraph gragh;
+			gragh.SetGraphTitle(_T("混合曲线"));
+			gragh.SetGraphColor(0x000000);
+			for(int i=-10000; i<10000; i++)
+			{
+				float fX = i;
+				float fY = -0.0001*i*i;
+				gragh.AddGraphData(fX, fY);
+			}
+			mGraphCtrl.AddGraph(gragh);
+        }
+    }
 }

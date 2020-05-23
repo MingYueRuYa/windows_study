@@ -16,6 +16,7 @@ public:
     virtual LRESULT OnDestroy(WPARAM wParam, LPARAM lParam);
     virtual LRESULT OnCreate(WPARAM wParam, LPARAM lParam);
     virtual LRESULT OnPaint(WPARAM wParam, LPARAM lParam);
+    virtual LRESULT OnSize(WPARAM wParam, LPARAM lParam);
 
 public:
     // 测试平铺和铺满
@@ -24,6 +25,7 @@ public:
     void DoubleBufferPaint(HDC hdc);
     // 坐标转换
     void CoordinateCovert(HDC hdc);
+    void DrawCurve();
 
 public:
     QButton m_wndButton;
