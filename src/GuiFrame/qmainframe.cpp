@@ -36,7 +36,7 @@ LRESULT QMainFrame::OnCreate(WPARAM wParam, LPARAM lParam)
     }
     */
 
-    DrawCurve();
+    // DrawCurve();
 
     return TRUE;
 }
@@ -49,6 +49,9 @@ LRESULT QMainFrame::OnPaint(WPARAM wParam, LPARAM lParam)
     // TestBltPaint(hdc);
     // DoubleBufferPaint(hdc);
     // CoordinateCovert(hdc);
+#ifdef TEST_DRAW_LIEN
+    mGraph.Draw(hdc);
+#endif // TEST_DRAW_LIEN
 
     ::EndPaint(m_hWnd, &ps);
     return 0;
@@ -63,6 +66,50 @@ LRESULT QMainFrame::OnSize(WPARAM wParam, LPARAM lParam)
 		::MoveWindow(mGraphCtrl.m_hWnd, 0, 0, rcClient.Width(), rcClient.Height(), TRUE);
 	}
 	return QWindow::Default(WM_SIZE, wParam, lParam);
+}
+
+LRESULT QMainFrame::OnLButtonDown(WPARAM wParam, LPARAM lParam)
+{
+    SetCapture(m_hWnd);
+    m_bStart = TRUE;
+
+    curBihua.clear();
+
+    m_ptOrg.x = LOWORD(lParam);
+    m_ptOrg.y = HIWORD(lParam);
+    curBihua.push_back(m_ptOrg);
+
+    return QWindow::OnLButtonDown(wParam, lParam);
+}
+
+LRESULT QMainFrame::OnMouseMove(WPARAM wParam, LPARAM lParam)
+{
+    CPoint ptMove;
+    ptMove.x = LOWORD(lParam);
+    ptMove.y = HIWORD(lParam);
+
+    if (m_bStart) {
+        HDC hdc = ::GetDC(m_hWnd);
+
+        MoveToEx(hdc, m_ptOrg.x, m_ptOrg.y, NULL);
+        LineTo(hdc, ptMove.x, ptMove.y);
+        m_ptOrg = ptMove;
+
+        ::ReleaseDC(m_hWnd, hdc);
+
+        curBihua.push_back(ptMove);
+    }
+
+    return QWindow::OnMouseMove(wParam, lParam);
+}
+
+LRESULT QMainFrame::OnLButtonUp(WPARAM wParam, LPARAM lParam)
+{
+    ReleaseCapture(); 
+    m_bStart = FALSE;
+    mGraph.AddBiHua(curBihua);
+
+    return QWindow::OnLButtonUp(wParam,lParam);
 }
 
 void QMainFrame::TestBltPaint(HDC hdc)

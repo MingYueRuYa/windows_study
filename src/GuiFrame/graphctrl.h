@@ -8,6 +8,11 @@
 
 using std::vector;
 
+using BIHUA = vector<CPoint>;
+
+
+#define TEST_DRAW_LIEN 1
+
 class CGraph
 {
 public:
@@ -23,6 +28,7 @@ public:
     void SetGraphColor(COLORREF clrGraphColor);
     void SetGraphVisible(BOOL bGraphVisibale);
     void AddGraphData(int x, int y);
+    void AddBiHua(BIHUA biHua);
 
 public:
     CString GetGraphTitle() const;
@@ -38,6 +44,8 @@ private:
     COLORREF m_clrGraphColor;
     BOOL m_bGraphVisible;
     vector<CPoint> m_vecGraphData;
+// ²âÊÔ»­×Ö°æ
+    vector<BIHUA> mBiHuaData;
 
 };
 

@@ -18,6 +18,10 @@ public:
     virtual LRESULT OnPaint(WPARAM wParam, LPARAM lParam);
     virtual LRESULT OnSize(WPARAM wParam, LPARAM lParam);
 
+    virtual LRESULT OnLButtonDown(WPARAM wParam, LPARAM lParam);
+    virtual LRESULT OnMouseMove(WPARAM wParam, LPARAM lParam);
+    virtual LRESULT OnLButtonUp(WPARAM wParam, LPARAM lParam);
+
 public:
     // ≤‚ ‘∆Ω∆Ã∫Õ∆Ã¬˙
     void TestBltPaint(HDC hdc);
@@ -30,6 +34,12 @@ public:
 public:
     QButton m_wndButton;
     CGraphCtrl mGraphCtrl;
+
+    // ≤‚ ‘ª≠◊÷∞Ê
+    BIHUA curBihua;
+    BOOL m_bStart;
+    CPoint m_ptOrg;
+    CGraph mGraph;
 
 };
 

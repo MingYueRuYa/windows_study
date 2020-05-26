@@ -59,6 +59,11 @@ void CGraph::AddGraphData(int x, int y)
     m_vecGraphData.push_back(point);
 }
 
+void CGraph::AddBiHua(BIHUA biHua)
+{
+    mBiHuaData.push_back(biHua);
+}
+
 CString CGraph::GetGraphTitle() const
 {
     return m_strGraphTitle;
@@ -81,6 +86,7 @@ vector<CPoint> CGraph::GetGraphData() const
 
 void CGraph::Draw(HDC hdc)
 {
+#ifndef TEST_DRAW_LIEN
     int nDataCount = m_vecGraphData.size();
     if (0 == nDataCount) { return; }
 
@@ -100,6 +106,24 @@ void CGraph::Draw(HDC hdc)
 
     ::SelectObject(hdc, holdPen);
     ::DeleteObject(hPenGraphColor);
+#else
+    int nCount = mBiHuaData.size();
+    for(int i = 0; i < nCount; ++i) {
+        BIHUA bihua = mBiHuaData.at(i);
+
+        int nPtCount = bihua.size();
+        if (nPtCount > 0) {
+            CPoint ptOrg = bihua[0];
+            MoveToEx(hdc, ptOrg.x, ptOrg.y, NULL);
+            for (int j = 0; j < nPtCount; ++j) {
+                CPoint movePoint = bihua[j];
+                LineTo(hdc, movePoint.x, movePoint.y);
+                MoveToEx(hdc, movePoint.x, movePoint.y, NULL);
+            }
+        }
+    }
+
+#endif // TEST_DRAW_LIEN
 
 }
 
