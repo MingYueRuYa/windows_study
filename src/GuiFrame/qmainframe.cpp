@@ -18,6 +18,7 @@ QMainFrame::~QMainFrame()
 
 LRESULT QMainFrame::OnClose(WPARAM wParam, LPARAM lParam)
 {
+    mGraph.SetGraghToFile(L"a.graph");
     return DestroyWindow();
 }
 
@@ -37,6 +38,8 @@ LRESULT QMainFrame::OnCreate(WPARAM wParam, LPARAM lParam)
     */
 
     // DrawCurve();
+
+    mGraph.GetGraghFromFile(L"a.graph");
 
     return TRUE;
 }

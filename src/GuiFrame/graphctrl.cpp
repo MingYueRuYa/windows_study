@@ -1,11 +1,14 @@
 #include "graphctrl.h"
 
+#include <list>
+
 CGraph::CGraph()
 {
     m_strGraphTitle = _T("");
     m_clrGraphColor = RGB(0x00, 0x00, 0x00);
     m_bGraphVisible = TRUE;
     m_vecGraphData.clear();
+    mBiHuaData.clear();
 }
 
 CGraph::~CGraph()
@@ -126,6 +129,70 @@ void CGraph::Draw(HDC hdc)
 #endif // TEST_DRAW_LIEN
 
 }
+
+
+
+/*
+序列化：将图形以文件的形式保存起来
+*/
+void CGraph::SetGraghToFile(CString strFileName)
+{
+	FILE* pFile = NULL;
+    errno_t error_code = _wfopen_s(&pFile, strFileName.GetBuffer(0), _T("w+b"));
+	if(error_code != 0) return;
+	int nCount = mBiHuaData.size();
+	fwrite((void*)&nCount, sizeof(int), sizeof(int), pFile);
+	for(int i=0; i<nCount; i++)
+	{
+		BIHUA bihua = mBiHuaData.at(i);
+		int nPtCount = bihua.size();
+		fwrite((void*)&nPtCount, sizeof(int), sizeof(int), pFile);
+		if(nPtCount>0)
+		{
+			for(int j=0; j<nPtCount; j++)
+			{
+				CPoint ptMove = bihua.at(j);
+				fwrite((void*)&ptMove.x, sizeof(ptMove.x), sizeof(ptMove.x), pFile);
+				fwrite((void*)&ptMove.y, sizeof(ptMove.y), sizeof(ptMove.y), pFile);
+			}
+		}
+	}
+	fclose(pFile);
+}
+
+/************************************************************************/
+/* 反序列化：从文件里面读出内容到内存中绘制                             */
+/************************************************************************/
+void CGraph::GetGraghFromFile(CString strFileName)
+{
+	mBiHuaData.clear();
+
+	FILE* pFile = NULL;
+    errno_t error_code = _tfopen_s(&pFile, strFileName.GetBuffer(0), _T("rb"));
+	if(0 != error_code) return;
+	int nCount = 0;
+	fread((void*)&nCount, sizeof(int), sizeof(int), pFile);
+	for(int i=0; i<nCount; i++)
+	{
+		int nPtCount = 0;
+		fread((void*)&nPtCount, sizeof(int), sizeof(int), pFile);
+        BIHUA bihua2;
+        bihua2.resize(nPtCount);
+		if(nPtCount>0)
+		{
+			for(int j=0; j<nPtCount; j++)
+			{
+				CPoint ptMove;
+				fread((void*)&ptMove.x, sizeof(ptMove.x),sizeof(ptMove.x), pFile);
+				fread((void*)&ptMove.y, sizeof(ptMove.y),sizeof(ptMove.y), pFile);
+                bihua2.insert(bihua2.begin()+j, ptMove);
+			}
+		}
+		AddBiHua(bihua2);
+	}
+	fclose(pFile);
+}
+
 
 CGraphCtrl::CGraphCtrl()
 {

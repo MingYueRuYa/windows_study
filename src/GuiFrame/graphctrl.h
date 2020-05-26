@@ -8,7 +8,8 @@
 
 using std::vector;
 
-using BIHUA = vector<CPoint>;
+// using BIHUA = vector<CPoint>;
+#define  BIHUA vector<CPoint>
 
 
 #define TEST_DRAW_LIEN 1
@@ -35,6 +36,8 @@ public:
     COLORREF GetGraphColor() const;
     BOOL GetGraphVisible() const;
     vector<CPoint> GetGraphData() const;
+    void GetGraghFromFile(CString strFileName);
+    void SetGraghToFile(CString strFileName);
 
 public:
     void Draw(HDC hdc);
