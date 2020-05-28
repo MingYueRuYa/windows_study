@@ -8,6 +8,7 @@ using std::wstring;
 
 #define IDC_BUTTON      10001
 #define IDC_GRAPHCTRL   10002
+#define IDT_TIMER       1
 
 QMainFrame::QMainFrame()
 {
@@ -36,6 +37,23 @@ LRESULT QMainFrame::OnDestroy(WPARAM wParam, LPARAM lParam)
     return TRUE;
 }
 
+void CALLBACK TimerProc(
+                    HWND hWnd,
+                    UINT uMsg,
+                    UINT idEvent,
+                    DWORD dwTime)
+{
+    QMainFrame *main_frame = (QMainFrame *)QWindow::FromHandle(hWnd);
+    if (IDT_TIMER == idEvent) {
+        CString &str_time = main_frame->mTimeStr;
+        SYSTEMTIME st;
+        GetLocalTime(&st);
+        str_time.Format(_T("%04d-%02d-%02d %02d:%02d:%02d"), st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond);
+        InvalidateRect(hWnd, NULL, TRUE);
+
+    }
+}
+
 LRESULT QMainFrame::OnCreate(WPARAM wParam, LPARAM lParam)
 {
     // 创建button
@@ -47,7 +65,14 @@ LRESULT QMainFrame::OnCreate(WPARAM wParam, LPARAM lParam)
 
     // DrawCurve();
 
-    mGraph.GetGraghFromFile(L"a.graph");
+    // 加载数据
+    // mGraph.GetGraghFromFile(L"a.graph");
+
+    // timer有两种方式
+    // 1.第一种指定TimerProc函数
+    // SetTimer(m_hWnd, IDT_TIMER, 200, TimerProc);
+    // 2.第一种没有指定TimerProc函数
+    SetTimer(m_hWnd, IDT_TIMER, 200, NULL);
 
     return TRUE;
 }
@@ -64,6 +89,10 @@ LRESULT QMainFrame::OnPaint(WPARAM wParam, LPARAM lParam)
     mGraph.Draw(hdc);
 #endif // TEST_DRAW_LIEN
 
+#ifdef TEST_TIMER
+    DrawTime(hdc);
+#endif
+
     ::EndPaint(m_hWnd, &ps);
     return 0;
 }
@@ -77,6 +106,25 @@ LRESULT QMainFrame::OnSize(WPARAM wParam, LPARAM lParam)
 		::MoveWindow(mGraphCtrl.m_hWnd, 0, 0, rcClient.Width(), rcClient.Height(), TRUE);
 	}
 	return QWindow::Default(WM_SIZE, wParam, lParam);
+}
+
+LRESULT QMainFrame::OnTimer(WPARAM wParam, LPARAM lParam)
+{
+    switch (wParam)
+    {
+    case IDT_TIMER:
+    {
+        SYSTEMTIME st;
+		GetLocalTime(&st);
+		mTimeStr.Format(_T("%04d-%02d-%02d %02d:%02d:%02d"), st.wYear, st.wMonth, st.wDay, st.wMonth, st.wMinute, st.wSecond);
+		InvalidateRect(m_hWnd, NULL, TRUE);
+    }
+        break;
+    default:
+        break;
+    }
+
+    return QWindow::OnTimer(wParam, lParam);
 }
 
 LRESULT QMainFrame::OnLButtonDown(WPARAM wParam, LPARAM lParam)
@@ -506,3 +554,12 @@ void QMainFrame::DrawCurve()
         }
     }
 }
+
+#ifdef TEST_TIMER
+void QMainFrame::DrawTime(HDC hdc)
+{
+    RECT rcClient;
+    GetClientRect(&rcClient);
+    DrawText(hdc, mTimeStr.GetBuffer(0), mTimeStr.GetLength(), &rcClient, DT_SINGLELINE | DT_CENTER | DT_VCENTER);
+}
+#endif // TEST_TIMER
