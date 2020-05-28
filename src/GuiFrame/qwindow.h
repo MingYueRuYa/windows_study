@@ -60,6 +60,7 @@ public: // virtual message handler
 	virtual LRESULT OnContextMenu(WPARAM wParam, LPARAM lParam);
 	virtual LRESULT OnCopyData(WPARAM wParam, LPARAM lParam);
 	virtual LRESULT OnCreate(WPARAM wParam, LPARAM lParam);
+    virtual LRESULT OnCommand(WPARAM wParam, LPARAM lParam);
 
 	// WM_ Message Handlers: D - E 
 	virtual LRESULT OnDeadChar(WPARAM wParam, LPARAM lParam);
@@ -124,6 +125,7 @@ public: // virtual message handler
 	virtual LRESULT OnNcRButtonDblClk(WPARAM wParam, LPARAM lParam);
 	virtual LRESULT OnNcRButtonDown(WPARAM wParam, LPARAM lParam);
 	virtual LRESULT OnNcRButtonUp(WPARAM wParam, LPARAM lParam);
+	virtual LRESULT OnNotify(WPARAM wParam, LPARAM lParam);
 
 	// WM_ Messages: P - R 
 	virtual LRESULT OnPaint(WPARAM wParam, LPARAM lParam);

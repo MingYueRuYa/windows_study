@@ -213,7 +213,8 @@ LRESULT QWindow::WindowProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		return OnCopyData(wParam, lParam);
 	case WM_CREATE:
 		return OnCreate(wParam, lParam);
-
+    case WM_COMMAND:
+        return OnCommand(wParam, lParam);
 	case WM_DEADCHAR:
 		return OnDeadChar(wParam, lParam);
 	case WM_DELETEITEM:
@@ -329,7 +330,8 @@ LRESULT QWindow::WindowProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		return OnNcRButtonDown(wParam, lParam);		
 	case WM_NCRBUTTONUP:
 		return OnNcRButtonUp(wParam, lParam);		
-
+    case WM_NOTIFY:
+        return OnNotify(wParam, lParam);
 	case WM_PAINT:
 		return OnPaint(wParam, lParam);			
 	case WM_PAINTCLIPBOARD:
@@ -490,6 +492,11 @@ LRESULT QWindow::OnCreate(WPARAM wParam, LPARAM lParam)
 {
     return true;
 	// return Default(WM_CREATE, wParam, lParam);
+}
+
+LRESULT QWindow::OnCommand(WPARAM wParam, LPARAM lParam)
+{
+    return Default(WM_COMMAND, wParam, lParam);
 }
 
 // WM_ Message Handlers: D - E 
@@ -775,6 +782,11 @@ LRESULT QWindow::OnNcRButtonDown(WPARAM wParam, LPARAM lParam)
 LRESULT QWindow::OnNcRButtonUp(WPARAM wParam, LPARAM lParam)
 {
 	return Default(WM_NCRBUTTONUP, wParam, lParam);
+}
+
+LRESULT QWindow::OnNotify(WPARAM wParam, LPARAM lParam)
+{
+	return Default(WM_NOTIFY, wParam, lParam);
 }
 
 // WM_ Messages: P - R 

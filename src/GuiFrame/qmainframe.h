@@ -25,6 +25,8 @@ public:
     virtual LRESULT OnLButtonDown(WPARAM wParam, LPARAM lParam);
     virtual LRESULT OnMouseMove(WPARAM wParam, LPARAM lParam);
     virtual LRESULT OnLButtonUp(WPARAM wParam, LPARAM lParam);
+    virtual LRESULT OnCommand(WPARAM wParam, LPARAM lParam);
+    virtual LRESULT OnNotify(WPARAM wParam, LPARAM lParam);
 
 public:
     // ≤‚ ‘∆Ω∆Ã∫Õ∆Ã¬˙

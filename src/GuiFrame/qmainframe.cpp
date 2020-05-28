@@ -83,11 +83,36 @@ LRESULT QMainFrame::OnCreate(WPARAM wParam, LPARAM lParam)
 
     m_wndButton2.CreateEx(0, _T("BUTTON"), _T(""), WS_CHILD|WS_VISIBLE|WS_BORDER|BS_DEFPUSHBUTTON, 0, 0, 100, 50, m_hWnd, (HMENU)10001);
 	m_wndEdit.CreateEx(0, _T("EDIT"), _T(""), WS_CHILD|WS_VISIBLE|WS_BORDER|ES_MULTILINE|WS_VSCROLL|ES_AUTOVSCROLL, 0, 100, 100, 50, m_hWnd, (HMENU)10002);
+    SendMessage(m_wndEdit.m_hWnd, WM_SETTEXT, 0, (LPARAM)(_T("测试性文字")));
+
 	m_wndListBox.CreateEx(0, _T("LISTBOX"), _T(""), WS_CHILD|WS_VISIBLE|WS_BORDER|LBS_HASSTRINGS, 0, 200, 100, 50, m_hWnd, (HMENU)10003);
+    SendMessage(m_wndListBox.m_hWnd, LB_ADDSTRING, 0, (LPARAM)(_T("上海")));
+	SendMessage(m_wndListBox.m_hWnd, LB_ADDSTRING, 0, (LPARAM)(_T("安徽")));
+
 	m_wndScrollBar.CreateEx(0, _T("SCROLLBAR"), _T(""), WS_CHILD|WS_VISIBLE|WS_BORDER|SBS_HORZ , 0, 300, 200, 20, m_hWnd, (HMENU)10004);
 	m_wndStatic.CreateEx(0, _T("STATIC"), _T(""), WS_CHILD|WS_VISIBLE, 0, 400, 100, 50, m_hWnd, (HMENU)10005);
 
 	m_wndTreeCtrl.CreateEx(0, WC_TREEVIEW, _T(""), WS_CHILD|WS_VISIBLE|WS_BORDER|TVS_HASLINES|TVS_HASBUTTONS|TVS_LINESATROOT, 0, 500, 200, 200, m_hWnd, (HMENU)10006);
+    TV_INSERTSTRUCT tvis;
+	tvis.hParent = TVI_ROOT;
+	tvis.hInsertAfter = TVI_LAST;
+	tvis.item.mask = TVIF_TEXT | TVIF_STATE;
+	tvis.item.pszText = _T("Windows 程序设计");
+	tvis.item.cchTextMax = sizeof(_T("Windows 程序设计"));
+	tvis.item.state = TVIS_EXPANDED;
+	tvis.item.stateMask = TVIS_EXPANDED;
+
+	HTREEITEM hTreeRoot = (HTREEITEM)::SendMessage(m_wndTreeCtrl.m_hWnd, TVM_INSERTITEM, 0, (LPARAM)(&tvis));
+
+	for(int i=1; i<=20; i++)
+	{
+		tvis.hParent = hTreeRoot;
+		CString str;
+		str.Format(_T("第%d讲"),  i);
+		tvis.item.pszText = str.GetBuffer(0);
+		tvis.item.cchTextMax = str.GetLength();
+		SendMessage(m_wndTreeCtrl.m_hWnd, TVM_INSERTITEM, 0, (LPARAM)(&tvis));
+	}
 
     return TRUE;
 }
@@ -186,6 +211,66 @@ LRESULT QMainFrame::OnLButtonUp(WPARAM wParam, LPARAM lParam)
     mGraph.AddBiHua(curBihua);
 
     return QWindow::OnLButtonUp(wParam,lParam);
+}
+
+LRESULT QMainFrame::OnCommand(WPARAM wParam, LPARAM lParam)
+{
+    UINT idButton = (int)LOWORD(wParam);
+    WORD wNotifyCode = HIWORD(wParam);
+    HWND hWnd = (HWND)lParam;
+
+    switch (wNotifyCode) {
+        case BN_CLICKED:
+        {
+            if (idButton == GetDlgCtrlID(m_wndButton2.m_hWnd)) {
+                DWORD dwState = (DWORD)::SendMessage(m_wndButton.m_hWnd, BM_GETCHECK, 0, 0);
+				if(dwState==BST_CHECKED)
+				{
+					SendMessage(m_wndButton.m_hWnd, BM_SETCHECK, BST_UNCHECKED, 0);
+				}
+				else
+				{
+					SendMessage(m_wndButton.m_hWnd, BM_SETCHECK, BST_CHECKED, 0);
+				}
+            } 
+        }
+            break;
+        default:
+            break;
+    }
+
+    return QWindow::OnCommand(wParam, lParam);
+}
+
+LRESULT QMainFrame::OnNotify(WPARAM wParam, LPARAM lParam)
+{
+    UINT idCtrl = (int)wParam;
+    NM_TREEVIEW *pNmtv = (NM_TREEVIEW *)lParam;
+    int nCode = pNmtv->hdr.code;
+
+    switch(nCode) {
+        case TVN_SELCHANGED:
+        {
+            if (pNmtv->hdr.hwndFrom == m_wndTreeCtrl.m_hWnd) {
+                HTREEITEM hItemNew = pNmtv->itemNew.hItem;
+
+                TCHAR pszText[1024] = {0};
+                TVITEM tvi;
+                tvi.mask = TVIF_TEXT | TVIF_HANDLE;
+                tvi.hItem = hItemNew;
+				tvi.pszText = pszText;
+				tvi.cchTextMax = 1024;
+				::SendMessage(m_wndTreeCtrl.m_hWnd, TVM_GETITEM, 0, (LPARAM)&tvi);
+
+				MessageBox(NULL, pszText, _T(""), 0);
+            }
+            break;
+        }
+        default:
+            break;
+    }
+
+    return QWindow::OnNotify(wParam, lParam);
 }
 
 void QMainFrame::TestBltPaint(HDC hdc)
