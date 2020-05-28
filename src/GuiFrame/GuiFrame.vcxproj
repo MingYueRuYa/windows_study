@@ -70,6 +70,7 @@
     <ClCompile Include="graphctrl.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="qbutton.cpp" />
+    <ClCompile Include="qbuttonex.cpp" />
     <ClCompile Include="qmainframe.cpp" />
     <ClCompile Include="qwindow.cpp" />
     <ClCompile Include="qwinapp.cpp" />
@@ -84,6 +85,7 @@
     <ClInclude Include="globalhead.h" />
     <ClInclude Include="graphctrl.h" />
     <ClInclude Include="qbutton.h" />
+    <ClInclude Include="qbuttonex.h" />
     <ClInclude Include="qmainframe.h" />
     <ClInclude Include="qwindow.h" />
     <ClInclude Include="qwinapp.h" />
@@ -108,6 +110,7 @@
     <Image Include="res\clock\9.bmp" />
     <Image Include="res\clock\black.bmp" />
     <Image Include="res\clock\point.bmp" />
+    <Image Include="res\idb_backward.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

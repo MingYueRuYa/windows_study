@@ -24,6 +24,13 @@ BOOL QButton::CreateEx(LPCTSTR lpszWindowName,
                                 hWndParent, nIDorHMenu, lpParam);
 }
 
+BOOL QButton::Create(LPCTSTR lpszCaption, DWORD dwStyle,
+		const RECT& rect, QWindow* pParentWnd, UINT nID)
+{
+    QWindow* pWnd = this;
+	return pWnd->CreateEx(0, _T("BUTTON"), lpszCaption, dwStyle, rect.left, rect.top, rect.right-rect.left, rect.bottom-rect.top, pParentWnd->m_hWnd, (HMENU)nID);
+}
+
 
 // Derived class is responsible for implementing all of these handlers
 //   for owner/self draw controls

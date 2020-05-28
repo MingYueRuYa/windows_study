@@ -3,6 +3,7 @@
 
 #include "qwindow.h"
 #include "qbutton.h"
+#include "qbuttonex.h"
 #include "graphctrl.h"
 #include "digitclock.h"
 
@@ -56,6 +57,7 @@ public:
 
 public:
 	// ±ê×¼¿Ø¼þ
+	QButtonEx m_wndButtonEx;
 	QWindow m_wndButton2;
 	QWindow m_wndEdit;
 	QWindow m_wndListBox;

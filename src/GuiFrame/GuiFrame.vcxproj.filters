@@ -48,6 +48,9 @@
     <ClCompile Include="digitclock.cpp">
       <Filter>头文件</Filter>
     </ClCompile>
+    <ClCompile Include="qbuttonex.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="global.h">
@@ -87,6 +90,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="digitclock.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="qbuttonex.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -133,6 +139,9 @@
       <Filter>资源文件</Filter>
     </Image>
     <Image Include="res\clock\point.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\idb_backward.bmp">
       <Filter>资源文件</Filter>
     </Image>
   </ItemGroup>

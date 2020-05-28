@@ -63,6 +63,9 @@ LRESULT QMainFrame::OnCreate(WPARAM wParam, LPARAM lParam)
     if (NULL == m_wndButton.m_hWnd) { 
         m_wndButton.CreateEx(_T("QButton Demo"), WS_CHILD | WS_VISIBLE | BS_DEFPUSHBUTTON | BS_CHECKBOX, 300, 0, 200, 120, m_hWnd, (HMENU)IDC_BUTTON);
     }
+
+    m_wndButtonEx.Create(_T("QButtonEx"), WS_CHILD | WS_VISIBLE | BS_OWNERDRAW, CRect(600, 0, 700, 50), this, 10001);
+    m_wndButtonEx.SetImage(IDB_BITMAP14);
     // DrawCurve();
 
     // МгдиЪ§Он

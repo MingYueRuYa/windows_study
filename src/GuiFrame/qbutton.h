@@ -20,6 +20,9 @@ public:
                         HWND hWndParent,
                         HMENU nIDorHMenu,
                         LPVOID lpParam = NULL);
+    virtual BOOL Create(LPCTSTR lpszCaption, DWORD dwStyle,
+		const RECT& rect, QWindow* pParentWnd, UINT nID);
+
     	// Attributes
 	UINT GetState() const;
 	void SetState(BOOL bHighlight);
