@@ -4,8 +4,9 @@
 #include "qwindow.h"
 #include "qbutton.h"
 #include "graphctrl.h"
+#include "digitclock.h"
 
-#define TEST_TIMER 1
+// #define TEST_TIMER 1
 
 class QMainFrame : public QWindow
 {
@@ -48,6 +49,8 @@ public:
 #ifdef TEST_TIMER
     CString mTimeStr;
 #endif // TEST_TIMER
+
+    DigitClock mDigitClock;
 
 };
 

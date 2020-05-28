@@ -12,7 +12,7 @@ using std::vector;
 #define  BIHUA vector<CPoint>
 
 
-#define TEST_DRAW_LIEN 1
+// #define TEST_DRAW_LIEN 1
 
 class CGraph
 {

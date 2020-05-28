@@ -45,6 +45,9 @@
     <ClCompile Include="..\common\registerhelper.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="digitclock.cpp">
+      <Filter>头文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="global.h">
@@ -83,6 +86,9 @@
     <ClInclude Include="..\common\utili.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="digitclock.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="GuiFrame.rc">
@@ -91,6 +97,42 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="bitmap1.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\clock\0.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\clock\1.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\clock\2.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\clock\3.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\clock\4.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\clock\5.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\clock\6.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\clock\7.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\clock\8.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\clock\9.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\clock\black.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\clock\point.bmp">
       <Filter>资源文件</Filter>
     </Image>
   </ItemGroup>

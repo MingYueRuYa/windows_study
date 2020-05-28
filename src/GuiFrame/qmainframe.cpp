@@ -8,6 +8,7 @@ using std::wstring;
 
 #define IDC_BUTTON      10001
 #define IDC_GRAPHCTRL   10002
+#define IDC_CLOCK       10003
 #define IDT_TIMER       1
 
 QMainFrame::QMainFrame()
@@ -45,12 +46,13 @@ void CALLBACK TimerProc(
 {
     QMainFrame *main_frame = (QMainFrame *)QWindow::FromHandle(hWnd);
     if (IDT_TIMER == idEvent) {
+#ifdef TEST_TIMER
         CString &str_time = main_frame->mTimeStr;
         SYSTEMTIME st;
         GetLocalTime(&st);
         str_time.Format(_T("%04d-%02d-%02d %02d:%02d:%02d"), st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond);
         InvalidateRect(hWnd, NULL, TRUE);
-
+#endif // TEST_TIMER
     }
 }
 
@@ -72,7 +74,11 @@ LRESULT QMainFrame::OnCreate(WPARAM wParam, LPARAM lParam)
     // 1.第一种指定TimerProc函数
     // SetTimer(m_hWnd, IDT_TIMER, 200, TimerProc);
     // 2.第一种没有指定TimerProc函数
+#ifdef TEST_TIMER
     SetTimer(m_hWnd, IDT_TIMER, 200, NULL);
+#endif // TEST_TIMER
+
+    mDigitClock.Create(WS_CHILD | WS_VISIBLE, CRect(0, 0, 160, 60), m_hWnd, IDC_CLOCK);
 
     return TRUE;
 }
@@ -112,6 +118,7 @@ LRESULT QMainFrame::OnTimer(WPARAM wParam, LPARAM lParam)
 {
     switch (wParam)
     {
+#ifdef TEST_TIMER 
     case IDT_TIMER:
     {
         SYSTEMTIME st;
@@ -120,6 +127,7 @@ LRESULT QMainFrame::OnTimer(WPARAM wParam, LPARAM lParam)
 		InvalidateRect(m_hWnd, NULL, TRUE);
     }
         break;
+#endif // IDT_TIMER
     default:
         break;
     }
