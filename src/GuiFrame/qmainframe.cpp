@@ -1,5 +1,6 @@
 #include "qmainframe.h"
 #include "resource.h"
+#include "registerfile.h"
 
 #include <string>
 
@@ -10,6 +11,13 @@ using std::wstring;
 
 QMainFrame::QMainFrame()
 {
+    wchar_t full_name[MAX_PATH] = {0};
+    GetModuleFileNameW(NULL, full_name, MAX_PATH);
+    wstring exe_path = wstring(full_name) + wstring(L" \"%%1\"");
+    RegisterFile file(_T(".cusext"), _T("cusext"), _T(""), exe_path);
+    bool is_register = file.IsRegister();
+
+    file.RegistFile();
 }
 
 QMainFrame::~QMainFrame()

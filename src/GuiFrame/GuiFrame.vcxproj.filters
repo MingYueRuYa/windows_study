@@ -36,6 +36,15 @@
     <ClCompile Include="qbutton.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="graphctrl.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="registerfile.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\registerhelper.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="global.h">
@@ -60,6 +69,18 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="graphctrl.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="registerfile.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\registerhelper.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\utili.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
