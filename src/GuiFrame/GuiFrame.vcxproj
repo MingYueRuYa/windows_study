@@ -47,6 +47,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -110,7 +111,13 @@
     <Image Include="res\clock\9.bmp" />
     <Image Include="res\clock\black.bmp" />
     <Image Include="res\clock\point.bmp" />
+    <Image Include="res\dn.ico" />
     <Image Include="res\idb_backward.bmp" />
+    <Image Include="res\right.ico" />
+    <Image Include="res\up.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\cursor1.cur" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

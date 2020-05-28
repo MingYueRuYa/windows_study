@@ -11,6 +11,7 @@ using std::wstring;
 #define IDC_GRAPHCTRL   10002
 #define IDC_CLOCK       10003
 #define IDT_TIMER       1
+#define IDT_TIMER_ICON  2
 
 QMainFrame::QMainFrame()
 {
@@ -114,6 +115,13 @@ LRESULT QMainFrame::OnCreate(WPARAM wParam, LPARAM lParam)
 		SendMessage(m_wndTreeCtrl.m_hWnd, TVM_INSERTITEM, 0, (LPARAM)(&tvis));
 	}
 
+    SetTimer(m_hWnd, IDT_TIMER_ICON, 500, NULL);
+
+    // 修改应用程序锁关联的图标
+	HICON hIcon = (HICON)::LoadIcon((HINSTANCE)::GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_UP));
+	SetClassLong(m_hWnd, GCL_HICON, (DWORD)hIcon);
+	SetClassLong(m_hWnd, GCL_HICONSM, (DWORD)hIcon);
+
     return TRUE;
 }
 
@@ -162,6 +170,34 @@ LRESULT QMainFrame::OnTimer(WPARAM wParam, LPARAM lParam)
     }
         break;
 #endif // IDT_TIMER
+    case IDT_TIMER_ICON:
+        {
+            static int nCount = 0;
+            HICON hIcon = NULL;
+            // 修改应用程序锁关联的图标
+            if(nCount%3==0)
+            {
+                hIcon = (HICON)::LoadIcon((HINSTANCE)::GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_UP));
+            }
+
+            if(nCount%3==1)
+            {
+                hIcon = (HICON)::LoadIcon((HINSTANCE)::GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_RIGHT));
+            }
+
+            if(nCount%3==2)
+            {
+                hIcon = (HICON)::LoadIcon((HINSTANCE)::GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_DOWN));
+            }
+
+            SetClassLong(m_hWnd, GCL_HICON, (DWORD)hIcon);
+            SetClassLong(m_hWnd, GCL_HICONSM, (DWORD)hIcon);
+            SendMessage(m_hWnd, WM_SETICON, ICON_BIG, (LPARAM)hIcon);
+            SendMessage(m_hWnd, WM_SETICON, ICON_SMALL, (LPARAM)hIcon);
+
+            nCount++;
+        }
+        break;
     default:
         break;
     }
