@@ -60,12 +60,9 @@ void CALLBACK TimerProc(
 LRESULT QMainFrame::OnCreate(WPARAM wParam, LPARAM lParam)
 {
     // 创建button
-    /*
     if (NULL == m_wndButton.m_hWnd) { 
-        m_wndButton.CreateEx(_T("QButton Demo"), WS_CHILD | WS_VISIBLE | BS_DEFPUSHBUTTON, 0, 0, 200, 120, m_hWnd, (HMENU)IDC_BUTTON);
+        m_wndButton.CreateEx(_T("QButton Demo"), WS_CHILD | WS_VISIBLE | BS_DEFPUSHBUTTON | BS_CHECKBOX, 300, 0, 200, 120, m_hWnd, (HMENU)IDC_BUTTON);
     }
-    */
-
     // DrawCurve();
 
     // 加载数据
@@ -226,11 +223,13 @@ LRESULT QMainFrame::OnCommand(WPARAM wParam, LPARAM lParam)
                 DWORD dwState = (DWORD)::SendMessage(m_wndButton.m_hWnd, BM_GETCHECK, 0, 0);
 				if(dwState==BST_CHECKED)
 				{
-					SendMessage(m_wndButton.m_hWnd, BM_SETCHECK, BST_UNCHECKED, 0);
+					// SendMessage(m_wndButton.m_hWnd, BM_SETCHECK, BST_UNCHECKED, 0);
+                    m_wndButton.SetCheck(BST_CHECKED);
 				}
 				else
 				{
-					SendMessage(m_wndButton.m_hWnd, BM_SETCHECK, BST_CHECKED, 0);
+					// SendMessage(m_wndButton.m_hWnd, BM_SETCHECK, BST_CHECKED, 0);
+                    m_wndButton.SetCheck(BST_UNCHECKED);
 				}
             } 
         }
