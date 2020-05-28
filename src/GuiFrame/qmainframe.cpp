@@ -4,6 +4,7 @@
 
 #include <string>
 #include <CommCtrl.h>
+#include <Winuser.h>
 
 using std::wstring;
 
@@ -251,6 +252,54 @@ LRESULT QMainFrame::OnLButtonUp(WPARAM wParam, LPARAM lParam)
     return QWindow::OnLButtonUp(wParam,lParam);
 }
 
+BOOL CALLBACK DialogProc(
+						 HWND hwndDlg, 
+						 UINT uMsg, 
+						 WPARAM wParam, 
+						 LPARAM lParam
+						 )
+{
+	switch(uMsg)
+	{
+	case WM_CLOSE:
+		{
+			::EndDialog(hwndDlg, IDCANCEL);
+		}
+		return TRUE;
+	case WM_COMMAND:
+		{
+			WORD wNotifyCode = HIWORD(wParam); 
+			WORD wID = LOWORD(wParam); 
+			HWND hwndCtl = (HWND) lParam;
+			if(wID==IDOK)
+			{
+				HWND hEditUserName = GetDlgItem(hwndDlg, IDC_EDIT_USERNAME);
+				assert(hEditUserName);
+				TCHAR lpszUserName[1024];
+				::GetWindowText(hEditUserName, lpszUserName, 1024);
+
+				HWND hEditPassWord = GetDlgItem(hwndDlg, IDC_EDIT_PASSWORD);
+				assert(hEditPassWord);
+				TCHAR lpszPassWord[1024];
+				::GetWindowText(hEditPassWord, lpszPassWord, 1024);
+	
+				if(_tcscmp(lpszUserName, _T("linux"))==0 && _tcscmp(lpszPassWord, _T("007"))==0)
+				{
+					MessageBox(NULL, _T("用户名密码正确"), _T("提示"), 0);
+					EndDialog(hwndDlg, IDOK);
+				}
+				else
+				{
+					MessageBox(NULL, _T("用户名或密码错误"), _T("提示"), 0);
+					::SetWindowText(hEditPassWord, _T(""));
+				}
+			}
+		}
+		return TRUE;
+	}
+	return FALSE;
+}
+
 LRESULT QMainFrame::OnCommand(WPARAM wParam, LPARAM lParam)
 {
     UINT idButton = (int)LOWORD(wParam);
@@ -277,6 +326,16 @@ LRESULT QMainFrame::OnCommand(WPARAM wParam, LPARAM lParam)
                 MessageBox(NULL, _T("ID_OPEN_FILE"), _T("ID_OPEN_FILE"), 0);
             } else if (idButton == ID_SAVE_FILE) {
                 MessageBox(NULL, _T("ID_SAVE_FILE"), _T("ID_SAVE_FILE"), 0);
+            } else if (idButton == ID_ABOUT) {
+                HINSTANCE hInstance = (HINSTANCE)::GetModuleHandle(NULL);
+				assert(hInstance);
+
+				int nRes = ::DialogBox(hInstance, MAKEINTRESOURCE(IDD_ABOUT_DLG), m_hWnd, DialogProc);
+				if(nRes==IDCANCEL)
+				{
+
+				}
+				return TRUE;
             }
         }
             break;
@@ -714,12 +773,10 @@ void QMainFrame::DrawTime(HDC hdc)
 
 void QMainFrame::AddMenu()
 {
-    /*
     HMENU hMenu = (HMENU)::LoadMenu((HINSTANCE)::GetModuleHandle(NULL), MAKEINTRESOURCE(IDR_MENU1));
     SetMenu(m_hWnd, hMenu);
-    */
 
-
+    /*
     // 第二种方式创建menu
     HMENU hMenu = CreateMenu();
 	HMENU hSubMenu1 = CreatePopupMenu();
@@ -729,6 +786,7 @@ void QMainFrame::AddMenu()
 	AppendMenu(hMenu, MF_POPUP | MF_STRING, (UINT)hSubMenu1, _T("文件"));
 	// HMENU hSubMenu1 = GetSystemMenu(m_hWnd, FALSE)
     SetMenu(m_hWnd, hMenu);
+    */
 }
 
 LRESULT QMainFrame::OnContextMenu(WPARAM wParam, LPARAM lParam)
