@@ -3,6 +3,7 @@
 #include "registerfile.h"
 
 #include <string>
+#include <CommCtrl.h>
 
 using std::wstring;
 
@@ -79,6 +80,14 @@ LRESULT QMainFrame::OnCreate(WPARAM wParam, LPARAM lParam)
 #endif // TEST_TIMER
 
     mDigitClock.Create(WS_CHILD | WS_VISIBLE, CRect(0, 0, 160, 60), m_hWnd, IDC_CLOCK);
+
+    m_wndButton2.CreateEx(0, _T("BUTTON"), _T(""), WS_CHILD|WS_VISIBLE|WS_BORDER|BS_DEFPUSHBUTTON, 0, 0, 100, 50, m_hWnd, (HMENU)10001);
+	m_wndEdit.CreateEx(0, _T("EDIT"), _T(""), WS_CHILD|WS_VISIBLE|WS_BORDER|ES_MULTILINE|WS_VSCROLL|ES_AUTOVSCROLL, 0, 100, 100, 50, m_hWnd, (HMENU)10002);
+	m_wndListBox.CreateEx(0, _T("LISTBOX"), _T(""), WS_CHILD|WS_VISIBLE|WS_BORDER|LBS_HASSTRINGS, 0, 200, 100, 50, m_hWnd, (HMENU)10003);
+	m_wndScrollBar.CreateEx(0, _T("SCROLLBAR"), _T(""), WS_CHILD|WS_VISIBLE|WS_BORDER|SBS_HORZ , 0, 300, 200, 20, m_hWnd, (HMENU)10004);
+	m_wndStatic.CreateEx(0, _T("STATIC"), _T(""), WS_CHILD|WS_VISIBLE, 0, 400, 100, 50, m_hWnd, (HMENU)10005);
+
+	m_wndTreeCtrl.CreateEx(0, WC_TREEVIEW, _T(""), WS_CHILD|WS_VISIBLE|WS_BORDER|TVS_HASLINES|TVS_HASBUTTONS|TVS_LINESATROOT, 0, 500, 200, 200, m_hWnd, (HMENU)10006);
 
     return TRUE;
 }

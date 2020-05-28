@@ -52,6 +52,17 @@ public:
 
     DigitClock mDigitClock;
 
+public:
+	// 标准控件
+	QWindow m_wndButton2;
+	QWindow m_wndEdit;
+	QWindow m_wndListBox;
+	QWindow m_wndScrollBar;
+	QWindow m_wndStatic;
+
+	// 通用控件
+	QWindow m_wndTreeCtrl;
+
 };
 
 #endif // guiframe_qmainframe_h

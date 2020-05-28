@@ -155,7 +155,7 @@ LRESULT QWindow::Default(UINT uMsg, WPARAM wParam, LPARAM lParam)
         return ::DefWindowProc(m_hWnd, uMsg, wParam, lParam);
     }
 
-    return m_lpfnOldWndProc(m_hWnd, uMsg, wParam, lParam);
+    return CallWindowProc(m_lpfnOldWndProc, m_hWnd, uMsg, wParam, lParam);
 }
 
 LRESULT CALLBACK QWindow::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -488,7 +488,8 @@ LRESULT QWindow::OnCopyData(WPARAM wParam, LPARAM lParam)
 
 LRESULT QWindow::OnCreate(WPARAM wParam, LPARAM lParam)
 {
-	return Default(WM_CREATE, wParam, lParam);
+    return true;
+	// return Default(WM_CREATE, wParam, lParam);
 }
 
 // WM_ Message Handlers: D - E 
@@ -707,7 +708,8 @@ LRESULT QWindow::OnNcCalcSize(WPARAM wParam, LPARAM lParam)
 
 LRESULT QWindow::OnNcCreate(WPARAM wParam, LPARAM lParam)
 {
-	return Default(WM_NCCREATE, wParam, lParam);
+	// return Default(WM_NCCREATE, wParam, lParam);
+    return true;
 }
 
 LRESULT QWindow::OnNcDestroy(WPARAM wParam, LPARAM lParam)
