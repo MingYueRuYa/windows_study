@@ -28,6 +28,7 @@ public:
     virtual LRESULT OnLButtonUp(WPARAM wParam, LPARAM lParam);
     virtual LRESULT OnCommand(WPARAM wParam, LPARAM lParam);
     virtual LRESULT OnNotify(WPARAM wParam, LPARAM lParam);
+    virtual LRESULT OnContextMenu(WPARAM wParam, LPARAM lParam);
 
 public:
     // ≤‚ ‘∆Ω∆Ã∫Õ∆Ã¬˙
@@ -38,6 +39,8 @@ public:
     void CoordinateCovert(HDC hdc);
     void DrawCurve();
     void DrawTime(HDC hdc);
+
+    void AddMenu();
 
 public:
     QButton m_wndButton;

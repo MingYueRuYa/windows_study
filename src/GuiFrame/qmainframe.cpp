@@ -122,6 +122,8 @@ LRESULT QMainFrame::OnCreate(WPARAM wParam, LPARAM lParam)
 	SetClassLong(m_hWnd, GCL_HICON, (DWORD)hIcon);
 	SetClassLong(m_hWnd, GCL_HICONSM, (DWORD)hIcon);
 
+    AddMenu();
+
     return TRUE;
 }
 
@@ -271,6 +273,11 @@ LRESULT QMainFrame::OnCommand(WPARAM wParam, LPARAM lParam)
                     m_wndButton.SetCheck(BST_UNCHECKED);
 				}
             } 
+            if (idButton == ID_OPEN_FILE) {
+                MessageBox(NULL, _T("ID_OPEN_FILE"), _T("ID_OPEN_FILE"), 0);
+            } else if (idButton == ID_SAVE_FILE) {
+                MessageBox(NULL, _T("ID_SAVE_FILE"), _T("ID_SAVE_FILE"), 0);
+            }
         }
             break;
         default:
@@ -703,3 +710,39 @@ void QMainFrame::DrawTime(HDC hdc)
     DrawText(hdc, mTimeStr.GetBuffer(0), mTimeStr.GetLength(), &rcClient, DT_SINGLELINE | DT_CENTER | DT_VCENTER);
 }
 #endif // TEST_TIMER
+
+
+void QMainFrame::AddMenu()
+{
+    /*
+    HMENU hMenu = (HMENU)::LoadMenu((HINSTANCE)::GetModuleHandle(NULL), MAKEINTRESOURCE(IDR_MENU1));
+    SetMenu(m_hWnd, hMenu);
+    */
+
+
+    // 第二种方式创建menu
+    HMENU hMenu = CreateMenu();
+	HMENU hSubMenu1 = CreatePopupMenu();
+	AppendMenu(hSubMenu1, MF_BYCOMMAND | MF_STRING, ID_OPEN_FILE, _T("打开文件"));
+	AppendMenu(hSubMenu1, MF_SEPARATOR, 0, _T(""));
+	AppendMenu(hSubMenu1, MF_BYCOMMAND | MF_STRING, ID_SAVE_FILE, _T("保存文件"));
+	AppendMenu(hMenu, MF_POPUP | MF_STRING, (UINT)hSubMenu1, _T("文件"));
+	// HMENU hSubMenu1 = GetSystemMenu(m_hWnd, FALSE)
+    SetMenu(m_hWnd, hMenu);
+}
+
+LRESULT QMainFrame::OnContextMenu(WPARAM wParam, LPARAM lParam)
+{
+	CPoint pt;
+	GetCursorPos(&pt);
+    /*
+	HMENU hSubMenu1 = CreatePopupMenu();
+	AppendMenu(hSubMenu1, MF_BYCOMMAND | MF_STRING, ID_OPEN_FILE, _T("打开文件"));
+	AppendMenu(hSubMenu1, MF_SEPARATOR, 0, _T(""));
+	AppendMenu(hSubMenu1, MF_BYCOMMAND | MF_STRING, ID_SAVE_FILE, _T("保存文件"));
+	TrackPopupMenu(hSubMenu1, TPM_LEFTALIGN|TPM_TOPALIGN, pt.x, pt.y, 0, m_hWnd, NULL);
+    */
+
+    // HMENU subMenu = GetSystemMenu(m_hWnd, false); 
+	return QWindow::OnContextMenu(wParam, lParam);
+}
