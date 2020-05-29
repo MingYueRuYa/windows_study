@@ -3,7 +3,10 @@
 
 #include "stdafx.h"
 #include "test_edr_dll.h"
-#include "edr.h"
+// #include "edr.h"
+#include "../edrdll/edr.h"
+
+#pragma comment(lib, "edrdll.lib")
 
 #define MAX_LOADSTRING 100
 
