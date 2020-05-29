@@ -59,6 +59,17 @@ void CALLBACK TimerProc(
     }
 }
 
+BOOL CALLBACK DialogProc2(
+						 HWND hwndDlg, 
+						 UINT uMsg, 
+						 WPARAM wParam, 
+						 LPARAM lParam
+						 )
+{
+    int i = 0;
+	return ::DefWindowProc(hwndDlg, uMsg, wParam, lParam);
+}
+
 LRESULT QMainFrame::OnCreate(WPARAM wParam, LPARAM lParam)
 {
     // ´´½¨button
@@ -124,6 +135,12 @@ LRESULT QMainFrame::OnCreate(WPARAM wParam, LPARAM lParam)
 	SetClassLong(m_hWnd, GCL_HICONSM, (DWORD)hIcon);
 
     AddMenu();
+
+    /*
+    HINSTANCE hInstance = (HINSTANCE)::GetModuleHandle(NULL);
+
+    HWND hDlg = ::CreateDialog(hInstance, MAKEINTRESOURCE(IDD_DIALOG1), m_hWnd, DialogProc2);
+    */
 
     return TRUE;
 }
@@ -323,10 +340,68 @@ LRESULT QMainFrame::OnCommand(WPARAM wParam, LPARAM lParam)
 				}
             } 
             if (idButton == ID_OPEN_FILE) {
-                MessageBox(NULL, _T("ID_OPEN_FILE"), _T("ID_OPEN_FILE"), 0);
+                // MessageBox(NULL, _T("ID_OPEN_FILE"), _T("ID_OPEN_FILE"), 0);
+                TCHAR lpszFilePath[MAX_PATH]={};
+				TCHAR lpszFileName[MAX_PATH]={};
+				OPENFILENAME ofn;
+				ofn.lStructSize = sizeof(OPENFILENAME);
+				ofn.hwndOwner = m_hWnd;
+				ofn.hInstance = (HINSTANCE)::GetModuleHandle(NULL);
+				ofn.lpstrFilter = _T("TEXT Files(*.txt)\0\0");
+				ofn.lpstrCustomFilter = NULL;
+				ofn.nMaxCustFilter = 0;
+				ofn.nFilterIndex = 0;
+				ofn.lpstrFile = lpszFilePath;
+				ofn.nMaxFile = MAX_PATH;
+				ofn.lpstrFileTitle = lpszFileName;
+				ofn.nMaxFileTitle = MAX_PATH;
+				ofn.lpstrInitialDir = NULL;
+				ofn.lpstrTitle = NULL;
+				ofn.Flags = OFN_HIDEREADONLY | OFN_CREATEPROMPT;
+				ofn.nFileOffset = 0;
+				ofn.nFileExtension = 0;
+				ofn.lpstrDefExt = _T("txt");
+				ofn.lCustData = 0;
+				ofn.lpfnHook = NULL;
+				ofn.lpTemplateName = NULL;
+				int nRet = GetOpenFileName(&ofn);
+				if(nRet!=0)
+				{
+					//  gGragh.GetGraghFromFile(lpszFilePath);
+					InvalidateRect(m_hWnd, NULL, TRUE);
+				}
             } else if (idButton == ID_SAVE_FILE) {
-                MessageBox(NULL, _T("ID_SAVE_FILE"), _T("ID_SAVE_FILE"), 0);
+                // MessageBox(NULL, _T("ID_SAVE_FILE"), _T("ID_SAVE_FILE"), 0);
+                TCHAR lpszFilePath[MAX_PATH]={};
+				TCHAR lpszFileName[MAX_PATH]={};
+				OPENFILENAME ofn;
+				ofn.lStructSize = sizeof(OPENFILENAME);
+				ofn.hwndOwner = m_hWnd;
+				ofn.hInstance = (HINSTANCE)::GetModuleHandle(NULL);
+				ofn.lpstrFilter = _T("TEXT Files(*.txt)\0\0");
+				ofn.lpstrCustomFilter = NULL;
+				ofn.nMaxCustFilter = 0;
+				ofn.nFilterIndex = 0;
+				ofn.lpstrFile = lpszFilePath;
+				ofn.nMaxFile = MAX_PATH;
+				ofn.lpstrFileTitle = lpszFileName;
+				ofn.nMaxFileTitle = MAX_PATH;
+				ofn.lpstrInitialDir = NULL;
+				ofn.lpstrTitle = NULL;
+				ofn.Flags = OFN_OVERWRITEPROMPT;
+				ofn.nFileOffset = 0;
+				ofn.nFileExtension = 0;
+				ofn.lpstrDefExt = _T("txt");
+				ofn.lCustData = 0;
+				ofn.lpfnHook = NULL;
+				ofn.lpTemplateName = NULL;
+				int nRet = GetSaveFileName(&ofn);
+				if(nRet!=0)
+				{
+					// gGragh.SetGraghToFile(lpszFilePath);
+				}
             } else if (idButton == ID_ABOUT) {
+                /*
                 HINSTANCE hInstance = (HINSTANCE)::GetModuleHandle(NULL);
 				assert(hInstance);
 
@@ -335,6 +410,7 @@ LRESULT QMainFrame::OnCommand(WPARAM wParam, LPARAM lParam)
 				{
 
 				}
+                */
 				return TRUE;
             }
         }
