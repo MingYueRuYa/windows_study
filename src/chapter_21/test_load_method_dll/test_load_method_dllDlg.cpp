@@ -6,7 +6,7 @@
 #include "test_load_method_dll.h"
 #include "test_load_method_dllDlg.h"
 #include "afxdialogex.h"
-#include "load_method_dll.h"
+#include "../load_method_dll/load_method_dll.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -94,8 +94,8 @@ HINSTANCE hLibrary = 0;
 void Ctest_load_method_dllDlg::OnBnClickedLoad()
 {
 	// TODO:  在此添加控件通知处理程序代码
-//	if (0 != hLibrary) { return; }
-//	hLibrary = LoadLibrary(TEXT("load_method_dll.dll"));
+	if (0 != hLibrary) { return; }
+	hLibrary = LoadLibrary(TEXT("load_method_dll.dll"));
 }
 
 typedef int(*Demo)(void);
@@ -104,11 +104,14 @@ typedef DWORD (*DemoW)(void);
 void Ctest_load_method_dllDlg::OnBnClickedClick()
 {
 	// TODO:  在此添加控件通知处理程序代码
-//	Demo demo = (Demo)GetProcAddress(hLibrary, "fnload_method_dll");
-//	DWORD errlast = GetLastError();
-//	demo();
+    // 因为生成dll时，没有指定extern "C"，所以函数的名字会发生变化
+    /*
+	Demo demo = (Demo)GetProcAddress(hLibrary, "fnload_method_dll");
+	DWORD errlast = GetLastError();
+	demo();
+    */
 	
-	fnload_method_dll();
+// fnload_method_dll();
 }
 
 void Ctest_load_method_dllDlg::OnBnClickedFree()

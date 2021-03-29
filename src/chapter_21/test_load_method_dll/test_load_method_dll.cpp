@@ -6,6 +6,7 @@
 #include "test_load_method_dll.h"
 #include "test_load_method_dllDlg.h"
 
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif

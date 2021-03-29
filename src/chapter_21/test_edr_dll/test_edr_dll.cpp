@@ -3,7 +3,12 @@
 
 #include "stdafx.h"
 #include "test_edr_dll.h"
-#include "edr.h"
+// #include "edr.h"
+#include "../edrdll/edr.h"
+#include "../../showUI/showUI.h"
+
+#pragma comment(lib, "edrdll.lib")
+#pragma comment(lib, "showui.lib")
 
 #define MAX_LOADSTRING 100
 
@@ -42,6 +47,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	}
 
 	hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_TEST_EDR_DLL));
+
 
 	// 主消息循环: 
 	while (GetMessage(&msg, NULL, 0, 0))
@@ -162,6 +168,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		EndPaint(hWnd, &ps);
 	}
 		break;
+    case WM_LBUTTONUP:
+    {
+        showWindow(NULL);
+    }
+        break;
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		break;

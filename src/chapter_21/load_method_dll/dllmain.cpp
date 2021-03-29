@@ -12,8 +12,10 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 		MessageBox(NULL, TEXT("title"), TEXT("process attach"), MB_OK);
 		break;
 	case DLL_THREAD_ATTACH:
+		MessageBox(NULL, TEXT("title"), TEXT("thread attach"), MB_OK);
 		break;
 	case DLL_THREAD_DETACH:
+		MessageBox(NULL, TEXT("title"), TEXT("thread deattach"), MB_OK);
 		break;
 	case DLL_PROCESS_DETACH:
 		MessageBox(NULL, TEXT("title"), TEXT("process deattach"), MB_OK);
